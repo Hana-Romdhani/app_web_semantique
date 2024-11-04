@@ -1,0 +1,68 @@
+# Fichiers et dossiers de l'environnement IDE (IntelliJ, Eclipse, VSCode)
+.idea/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+# Fichiers Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Fichiers Gradle
+.gradle/
+build/
+
+# Fichiers du système d'exploitation
+.DS_Store
+Thumbs.db
+
+# Fichiers de logs
+*.log
+logs/
+
+# Fichiers générés par le compilateur Java
+*.class
+
+# Fichiers de configuration de Spring Boot
+spring-boot-devtools.properties
+
+# Fichiers de configuration pour la sécurité et les informations sensibles
+.env
+*.env
+*.yml
+application-*.yml
+# Fichiers de données temporaires
+*.tmp
+*.temp
+
+# Bases de données locales
+*.db
+*.h2.db
+*.mv.db
+
+# Fichiers de cache
+.cache/
+*.cache
+
+# Fichiers spécifiques à Docker
+docker-compose.override.yml
+
+# Autres fichiers spécifiques au développement
+*.swp
+*.swo
+*.bak
+*.old
+
+
+/src/main/resources/data/tdb1/*.dat
+/src/main/resources/data/tdb1/*.idn
+src/main/resources/data/tdb1/OSP.dat
+src/main/resources/data/tdb1/POS.dat
+src/main/resources/data/tdb1/SPO.dat
