@@ -4,6 +4,9 @@ package com.greenlink.utils;
 import com.greenlink.config.JenaEngine;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+
 @Component
 public class SparqlUtils {
 
@@ -38,5 +41,8 @@ public class SparqlUtils {
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
+
+
+
 
 }

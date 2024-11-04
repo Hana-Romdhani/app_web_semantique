@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/ontology/conseils")
 public class ConseilControllerr {
@@ -28,4 +28,5 @@ public class ConseilControllerr {
         sparqlUtils.addConseilEnAttente(titre, contenu, dateSoumission);
         return "ConseilEnAttente added and saved to OWL file successfully!";
     }
+
 }
