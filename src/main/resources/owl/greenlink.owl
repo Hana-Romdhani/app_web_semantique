@@ -716,13 +716,6 @@
     <rdfs:domain rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Conseil"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
   </owl:FunctionalProperty>
-  <owl:AllDisjointClasses>
-    <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CommentaireJardinier"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CommentaireVisiteur"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Reponse"/>
-    </owl:members>
-  </owl:AllDisjointClasses>
   <rdf:Description rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#ConseilApprouve_01">
     <agri:contenuConseil>Cultiver des tomates en pot</agri:contenuConseil>
     <rdf:type>
@@ -778,6 +771,20 @@
     </rdf:type>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </rdf:Description>
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Administrateur"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Jardinier"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Visiteur"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceEducative"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceMaterielle"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceNaturelle"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
   <rdf:Description rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#ConseilEnAttente_01">
     <agri:titreConseil>Comment bien arroser vos plantes</agri:titreConseil>
     <rdf:type>
@@ -799,6 +806,18 @@
     <agri:typeRessource>Matériel</agri:typeRessource>
     <agri:EtatRessourceMaterielle>Neuf</agri:EtatRessourceMaterielle>
   </owl:NamedIndividual>
+  <agri:ConseilEnAttente>
+    <agri:titreConseil>test</agri:titreConseil>
+    <agri:contenuConseil>test</agri:contenuConseil>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >test</agri:dateSoumission>
+  </agri:ConseilEnAttente>
+  <agri:ConseilEnAttente>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024/01/38</agri:dateSoumission>
+    <agri:contenuConseil>amina</agri:contenuConseil>
+    <agri:titreConseil>sophie</agri:titreConseil>
+  </agri:ConseilEnAttente>
   <agri:EvenementLocal rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Evenement_01">
     <agri:dateEvenement>09-10-2024</agri:dateEvenement>
     <agri:titreEvenement>Événement de découverte</agri:titreEvenement>
@@ -806,23 +825,19 @@
     <agri:lieuEvenement>Tunis</agri:lieuEvenement>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </agri:EvenementLocal>
-  <owl:AllDisjointClasses>
-    <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceEducative"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceMaterielle"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceNaturelle"/>
-    </owl:members>
-  </owl:AllDisjointClasses>
+  <agri:RessourceEducative>
+    <agri:nom>Guide d'agriculture urbaine</agri:nom>
+    <agri:description>aaaaaaaaaaaaaaaaaaaaaaaaaaaaa</agri:description>
+    <agri:quantite rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >3</agri:quantite>
+    <agri:titre>aaaa</agri:titre>
+    <agri:format>png</agri:format>
+    <agri:niveauCompetence>avancé</agri:niveauCompetence>
+  </agri:RessourceEducative>
   <agri:Conference rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#ClassificationEvenement_01">
     <agri:nomClassificationEvenement>Forum</agri:nomClassificationEvenement>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </agri:Conference>
-  <agri:ConseilEnAttente>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024/01/38</agri:dateSoumission>
-    <agri:contenuConseil>amina</agri:contenuConseil>
-    <agri:titreConseil>sophie</agri:titreConseil>
-  </agri:ConseilEnAttente>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Ressources">
     <agri:descriptionRessource>Réservoir d'eau de 500 litres pour l'irrigation du jardin.</agri:descriptionRessource>
     <agri:QuantiteRessourceNaturelle>1</agri:QuantiteRessourceNaturelle>
@@ -851,13 +866,6 @@
       <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PlanteOrnementale"/>
     </owl:members>
   </owl:AllDisjointClasses>
-  <owl:AllDisjointClasses>
-    <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageConnaissance"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageMateriel"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageRessourceNaturelle"/>
-    </owl:members>
-  </owl:AllDisjointClasses>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CatégoriePlante">
     <agri:nomCategoriePlante>Légumes</agri:nomCategoriePlante>
   </owl:NamedIndividual>
@@ -871,13 +879,6 @@
     <agri:nomUser>ean Dupont</agri:nomUser>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </agri:Jardinier>
-  <owl:AllDisjointClasses>
-    <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Administrateur"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Jardinier"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Visiteur"/>
-    </owl:members>
-  </owl:AllDisjointClasses>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Ressources_Partagées">
     <agri:statutRessourcesPartagees>En cours</agri:statutRessourcesPartagees>
     <agri:nomUser>ahmed salhi</agri:nomUser>
@@ -888,6 +889,13 @@
     <agri:DatedebutPartageMateriel>2024-10-01</agri:DatedebutPartageMateriel>
     <agri:DateFinPartageMateriel>2024-10-15</agri:DateFinPartageMateriel>
   </owl:NamedIndividual>
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageConnaissance"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageMateriel"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageRessourceNaturelle"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
   <agri:Administrateur rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Administrateur_01">
     <agri:nomUser>Paul Durand</agri:nomUser>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
@@ -895,12 +903,63 @@
   <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#localisation">
     <rdfs:domain rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Jardin"/>
   </owl:AnnotationProperty>
+  <agri:RessourceMaterielle>
+    <agri:disponibilite rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >false</agri:disponibilite>
+    <agri:etat>null</agri:etat>
+    <agri:typeMateriel>null</agri:typeMateriel>
+    <agri:quantite rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >55</agri:quantite>
+    <agri:description>null</agri:description>
+    <agri:dateAjout rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >test</agri:dateAjout>
+    <agri:nom>Ress1</agri:nom>
+  </agri:RessourceMaterielle>
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#AtelierPratique"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Conference"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Formation"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CommentaireJardinier"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CommentaireVisiteur"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Reponse"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
   <agri:Plantation rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#plantation1">
     <agri:nomplantation>Potager Bio</agri:nomplantation>
     <agri:nomJardin>Jardin Solidaire</agri:nomJardin>
     <agri:dateplantation>09-10-2024</agri:dateplantation>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </agri:Plantation>
+  <agri:RessourceMaterielle>
+    <agri:etat>bon</agri:etat>
+    <agri:typeMateriel>aluminium</agri:typeMateriel>
+    <agri:dateAjout rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-01</agri:dateAjout>
+    <agri:quantite rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >55</agri:quantite>
+    <agri:description>tutoriel complet sur les meilleures pratiques d'agriculture urbaine.</agri:description>
+    <agri:disponibilite rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</agri:disponibilite>
+  </agri:RessourceMaterielle>
+  <agri:ConseilEnAttente>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024/01/38</agri:dateSoumission>
+    <agri:contenuConseil>hahahahahahahahahhahahahhaha</agri:contenuConseil>
+    <agri:titreConseil>blalalalalalalalallalala</agri:titreConseil>
+  </agri:ConseilEnAttente>
+  <agri:RessourceNaturelle>
+    <agri:nom>Eau de pluie</agri:nom>
+    <agri:description>aaaaaaaaaaaaaaaaaaaaaaaaaaaaa</agri:description>
+    <agri:quantite rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >55</agri:quantite>
+    <agri:dateAjout>null</agri:dateAjout>
+    <agri:source>TESTTTTTTTTTUP</agri:source>
+  </agri:RessourceNaturelle>
   <agri:PlanteLegume rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Plante_Tomate">
     <agri:appartientA rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CategorieLegume"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
@@ -917,22 +976,25 @@
     <agri:nomRessource>Guide sur la permaculture</agri:nomRessource>
   </owl:NamedIndividual>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#partageAvec"/>
-  <owl:AllDisjointClasses>
-    <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#AtelierPratique"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Conference"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Formation"/>
-    </owl:members>
-  </owl:AllDisjointClasses>
-  <agri:ConseilEnAttente>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024/01/38</agri:dateSoumission>
-    <agri:contenuConseil>hahahahahahahahahhahahahhaha</agri:contenuConseil>
-    <agri:titreConseil>blalalalalalalalallalala</agri:titreConseil>
-  </agri:ConseilEnAttente>
+  <agri:RessourceNaturelle>
+    <agri:dateAjout rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-01</agri:dateAjout>
+    <agri:quantite rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >55</agri:quantite>
+    <agri:description>tutoriel complet sur les meilleures pratiques d'agriculture urbaine.</agri:description>
+    <agri:source>kinza</agri:source>
+  </agri:RessourceNaturelle>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Partage_de_Ressources_Naturelles">
     <agri:datePartageRessource>2024-09-20</agri:datePartageRessource>
     <agri:nomRessource>Réservoir d'eau</agri:nomRessource>
     <agri:quantiteRessourcesPartagees>20</agri:quantiteRessourcesPartagees>
   </owl:NamedIndividual>
+  <agri:RessourceEducative>
+    <agri:format>png</agri:format>
+    <agri:titre>aaaa</agri:titre>
+    <agri:quantite rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >3</agri:quantite>
+    <agri:description>aaaaaaaaaaaaaaaaaaaaaaaaaaaaa</agri:description>
+    <agri:niveauCompetence>deb</agri:niveauCompetence>
+  </agri:RessourceEducative>
 </rdf:RDF>
