@@ -1,6 +1,6 @@
 package com.greenlink.config;
 
-import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
@@ -13,6 +13,10 @@ import org.springframework.stereotype.Component;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 @Component
 public class JenaEngine {
 
@@ -76,5 +80,38 @@ public class JenaEngine {
     // Accessor for the model
     public Model getModel() {
         return model;
+    }
+
+
+    public List<Map<String, String>> executeSelectQuery(String query) {
+        List<Map<String, String>> resultsList = new ArrayList<>();
+
+        // Create a query using the provided SPARQL query string
+        QueryExecution queryExecution = QueryExecutionFactory.create(query, model);
+
+        try {
+            // Execute the query and get the results
+            ResultSet results = queryExecution.execSelect();
+
+            // Iterate over the results
+            while (results.hasNext()) {
+                QuerySolution solution = results.nextSolution();
+                Map<String, String> row = new HashMap<>();
+
+                // Iterate over the variables in each solution
+                results.getResultVars().forEach(var -> {
+                    if (solution.contains(var)) {
+                        row.put(var, solution.get(var).toString());
+                    }
+                });
+
+                // Add the row map to the results list
+                resultsList.add(row);
+            }
+        } finally {
+            queryExecution.close();
+        }
+
+        return resultsList;
     }
 }
