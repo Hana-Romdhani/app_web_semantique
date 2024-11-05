@@ -77,28 +77,6 @@ public class SparqlUtils {
         return plantes;
     }
 
-    public List<Map<String, String>> getAllCategoriesPlante() {
-        String query = String.format(
-                "PREFIX agri: <%s> " +
-                        "SELECT ?categorie ?nomCategorie " +
-                        "WHERE { " +
-                        "    ?categorie a agri:CategoriePlante ; " +
-                        "               agri:nomCategoriePlante ?nomCategorie . " +
-                        "}", AGRICULTURE_NAMESPACE);
-
-        List<Map<String, String>> categories = new ArrayList<>();
-        try (QueryExecution qexec = QueryExecutionFactory.create(QueryFactory.create(query), jenaEngine.getModel())) {
-            ResultSet results = qexec.execSelect();
-            while (results.hasNext()) {
-                QuerySolution soln = results.nextSolution();
-                Map<String, String> categoryData = new HashMap<>();
-                categoryData.put("categorie", soln.getResource("categorie").getURI());
-                categoryData.put("nomCategorie", soln.getLiteral("nomCategorie").getString());
-                categories.add(categoryData);
-            }
-        }
-        return categories;
-    }
     public void addPlante(
             String id,
             String nom,
@@ -383,5 +361,99 @@ public class SparqlUtils {
         return planteOrnementales;
     }
 
+    // ******************************************************************
+    // ****************************************************************** CategoriePlante
+
+    public List<Map<String, String>> getAllCategoriesPlante() {
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "SELECT ?categorie ?id ?nomCategorie " +
+                        "WHERE { " +
+                        "    ?categorie a agri:CategoriePlante ; " +
+                        "               agri:nomCategoriePlante ?nomCategorie . " +
+                        "    BIND(STRAFTER(STR(?categorie), \"%s\") AS ?id) " + // Extract the ID from the URI
+                        "}",
+                AGRICULTURE_NAMESPACE, AGRICULTURE_NAMESPACE);
+
+        List<Map<String, String>> categories = new ArrayList<>();
+        try (QueryExecution qexec = QueryExecutionFactory.create(QueryFactory.create(query), jenaEngine.getModel())) {
+            ResultSet results = qexec.execSelect();
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                Map<String, String> categoryData = new HashMap<>();
+                categoryData.put("id", soln.getLiteral("id").getString()); // Extracted ID from URI
+                categoryData.put("nomCategorie", soln.getLiteral("nomCategorie").getString());
+                categories.add(categoryData);
+            }
+        }
+        return categories;
+    }
+    public String addCategoriePlante(String id, String nomCategorie) {
+        // Generate an automatic ID if none is provided
+        if (id == null || id.isEmpty()) {
+            id = "Categorie_" + UUID.randomUUID().toString(); // Generates a unique ID
+        }
+        String categorieURI = AGRICULTURE_NAMESPACE + id;
+
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "INSERT DATA { " +
+                        "  <%s> a agri:CategoriePlante ; " +
+                        "       agri:nomCategoriePlante \"%s\" . " +
+                        "}",
+                AGRICULTURE_NAMESPACE,
+                categorieURI,
+                nomCategorie
+        );
+
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+
+        return id; // Return the generated or provided ID
+    }
+    public void updateCategoriePlante(String id, String nomCategorie) {
+        String categorieURI = AGRICULTURE_NAMESPACE + id;
+
+        // Build the DELETE and INSERT clauses only for provided parameters
+        StringBuilder deleteClause = new StringBuilder("DELETE { ");
+        StringBuilder insertClause = new StringBuilder("INSERT { ");
+        StringBuilder whereClause = new StringBuilder("WHERE { ");
+
+        if (nomCategorie != null && !nomCategorie.isEmpty()) {
+            deleteClause.append("<").append(categorieURI).append("> agri:nomCategoriePlante ?oldNomCategorie . ");
+            insertClause.append("<").append(categorieURI).append("> agri:nomCategoriePlante \"").append(nomCategorie).append("\" . ");
+            whereClause.append("OPTIONAL { <").append(categorieURI).append("> agri:nomCategoriePlante ?oldNomCategorie } ");
+        }
+
+        // Close the DELETE, INSERT, and WHERE clauses
+        deleteClause.append("} ");
+        insertClause.append("} ");
+        whereClause.append("} ");
+
+        // Combine clauses into a full SPARQL update query
+        String query = String.format("PREFIX agri: <%s> %s %s %s",
+                AGRICULTURE_NAMESPACE,
+                deleteClause.toString(),
+                insertClause.toString(),
+                whereClause.toString());
+
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+    }
+    public void deleteCategoriePlante(String id) {
+        String categorieURI = AGRICULTURE_NAMESPACE + id;
+
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "DELETE WHERE { " +
+                        "  <%s> ?p ?o . " +
+                        "}",
+                AGRICULTURE_NAMESPACE,
+                categorieURI
+        );
+
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+    }
 
 }

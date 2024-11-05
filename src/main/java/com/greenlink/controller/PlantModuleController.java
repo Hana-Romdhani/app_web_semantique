@@ -87,12 +87,44 @@ public class PlantModuleController {
         return sparqlUtils.getAllPlanteOrnementales();
     }
 
+    // ******************************************************************
+    // ****************************************************************** CategoriePlante
+// Endpoint to get all CategoriePlante in structured format
     @GetMapping("/categories")
     public List<Map<String, String>> getAllCategoriesPlante() {
         System.out.println("Fetching all CategoriePlante instances...");
         return sparqlUtils.getAllCategoriesPlante();
     }
 
+    // Endpoint to add a CategoriePlante
+    @PostMapping("/categories/add")
+    public String addCategoriePlante(
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false) String nomCategorie) { // Make nomCategorie optional if necessary
+        if (nomCategorie == null || nomCategorie.isEmpty()) {
+            return "Error: 'nomCategorie' is required to add a CategoriePlante.";
+        }
+        String generatedId = sparqlUtils.addCategoriePlante(id, nomCategorie);
+        return "CategoriePlante with ID " + generatedId + " added successfully!";
+    }
+
+
+    // Endpoint to update a CategoriePlante with optional fields
+    @PutMapping("/categories/update")
+    public String updateCategoriePlante(
+            @RequestParam String id,
+            @RequestParam(required = false) String nomCategorie) {
+        sparqlUtils.updateCategoriePlante(id, nomCategorie);
+        return "CategoriePlante with ID " + id + " updated successfully!";
+    }
+
+
+    // Endpoint to delete a CategoriePlante
+    @DeleteMapping("/categories/delete")
+    public String deleteCategoriePlante(@RequestParam String id) {
+        sparqlUtils.deleteCategoriePlante(id);
+        return "CategoriePlante with ID " + id + " deleted successfully!";
+    }
 
 
 
