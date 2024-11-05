@@ -57,4 +57,30 @@ public class ConseilControllerr {
     public List<Map<String, String>> listConseilsApprouves() {
         return sparqlUtils.getConseilsApprouves();
     }
+
+    @PostMapping("/comment")
+    public String addComment(
+            @RequestParam String idConseil,
+            @RequestParam String contenuCommentaire,
+            @RequestParam String auteur,
+            @RequestParam boolean isVisiteur) {
+        // Call the updated method without dateCommentaire parameter
+        sparqlUtils.ajouterCommentaire(idConseil, contenuCommentaire, auteur, isVisiteur);
+        return "Comment added successfully!";
+    }
+
+    @GetMapping("/{idConseil}")
+    public List<Map<String, String>> getCommentaires(@PathVariable String idConseil) {
+        // Call the method to get comments for the given idConseil
+        return sparqlUtils.getCommentairesForConseil(idConseil);
+    }
+    @PostMapping("/reply")
+    public String submitReply(
+            @RequestParam String idCommentaire,
+            @RequestParam String contenuReponse,
+            @RequestParam String auteur) {
+        sparqlUtils.soumettreReponse(idCommentaire, contenuReponse,  auteur);
+        return "Reply added successfully!";
+    }
+
 }
