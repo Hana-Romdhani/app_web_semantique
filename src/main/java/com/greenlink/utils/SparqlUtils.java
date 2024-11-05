@@ -131,5 +131,73 @@ public class SparqlUtils {
         jenaEngine.saveModelToFile();
     }
 
+    public void updatePlante(String id, String nom, String description, String hauteur, String type, String saison) {
+        String planteURI = AGRICULTURE_NAMESPACE + id; // Construct the URI for the Plante
+
+        // Build the DELETE clause only for provided parameters
+        StringBuilder deleteClause = new StringBuilder("DELETE { ");
+        StringBuilder insertClause = new StringBuilder("INSERT { ");
+        StringBuilder whereClause = new StringBuilder("WHERE { ");
+
+        if (nom != null) {
+            deleteClause.append("<").append(planteURI).append("> agri:nomPlante ?oldNom . ");
+            insertClause.append("<").append(planteURI).append("> agri:nomPlante \"").append(nom).append("\" . ");
+            whereClause.append("OPTIONAL { <").append(planteURI).append("> agri:nomPlante ?oldNom } ");
+        }
+        if (description != null) {
+            deleteClause.append("<").append(planteURI).append("> agri:descriptionPlante ?oldDescription . ");
+            insertClause.append("<").append(planteURI).append("> agri:descriptionPlante \"").append(description).append("\" . ");
+            whereClause.append("OPTIONAL { <").append(planteURI).append("> agri:descriptionPlante ?oldDescription } ");
+        }
+        if (hauteur != null) {
+            deleteClause.append("<").append(planteURI).append("> agri:hauteurMaximalePlante ?oldHauteur . ");
+            insertClause.append("<").append(planteURI).append("> agri:hauteurMaximalePlante \"").append(hauteur).append("\" . ");
+            whereClause.append("OPTIONAL { <").append(planteURI).append("> agri:hauteurMaximalePlante ?oldHauteur } ");
+        }
+        if (type != null) {
+            deleteClause.append("<").append(planteURI).append("> agri:typePlante ?oldType . ");
+            insertClause.append("<").append(planteURI).append("> agri:typePlante \"").append(type).append("\" . ");
+            whereClause.append("OPTIONAL { <").append(planteURI).append("> agri:typePlante ?oldType } ");
+        }
+        if (saison != null) {
+            deleteClause.append("<").append(planteURI).append("> agri:saisonPlantationPlante ?oldSaison . ");
+            insertClause.append("<").append(planteURI).append("> agri:saisonPlantationPlante \"").append(saison).append("\" . ");
+            whereClause.append("OPTIONAL { <").append(planteURI).append("> agri:saisonPlantationPlante ?oldSaison } ");
+        }
+
+        // Close the DELETE, INSERT, and WHERE clauses
+        deleteClause.append("} ");
+        insertClause.append("} ");
+        whereClause.append("} ");
+
+        // Combine clauses into a full SPARQL update query
+        String query = String.format("PREFIX agri: <%s> %s %s %s",
+                AGRICULTURE_NAMESPACE,
+                deleteClause.toString(),
+                insertClause.toString(),
+                whereClause.toString());
+
+        // Execute the SPARQL update and save the model to file
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+    }
+
+    public void deletePlante(String id) {
+        String planteURI = AGRICULTURE_NAMESPACE + id; // Construct the URI from the ID
+
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "DELETE WHERE { " +
+                        "  <%s> ?p ?o . " +
+                        "}",
+                AGRICULTURE_NAMESPACE,
+                planteURI
+        );
+
+        // Execute the SPARQL update and save the model to file
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+    }
+
 
 }

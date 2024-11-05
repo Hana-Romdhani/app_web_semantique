@@ -1,5 +1,6 @@
 package com.greenlink.controller;
 
+import com.greenlink.dto.PlanteUpdateDTO;
 import com.greenlink.utils.SparqlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,28 @@ public class PlantModuleController {
     }
 
 
+    // Endpoint to update a Plante
+    @PutMapping("/plantes/update")
+    public String updatePlante(
+            @RequestParam String id,
+            @RequestBody PlanteUpdateDTO planteUpdateDTO) {
+        sparqlUtils.updatePlante(id,
+                planteUpdateDTO.getNom(),
+                planteUpdateDTO.getDescription(),
+                planteUpdateDTO.getHauteur(),
+                planteUpdateDTO.getType(),
+                planteUpdateDTO.getSaison());
+        return "Plante with ID " + id + " updated successfully!";
+    }
+
+
+
+    // Endpoint to delete a Plante
+    @DeleteMapping("/plantes/delete")
+    public String deletePlante(@RequestParam String id) {
+        sparqlUtils.deletePlante(id);
+        return "Plante with ID " + id + " deleted successfully!";
+    }
 
 
 
