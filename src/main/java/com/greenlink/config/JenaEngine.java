@@ -69,6 +69,7 @@ public class JenaEngine {
         processor.execute();
     }
 
+
     // Save the updated model to the OWL file
     public void saveModelToFile() {
         try (FileOutputStream out = new FileOutputStream(owlFilePath)) {

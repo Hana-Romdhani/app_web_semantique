@@ -2,6 +2,7 @@ package com.greenlink.controller;
 
 import com.greenlink.utils.SparqlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,8 @@ public class RessourceController {
     // ---------------- CRUD for Generic Ressource and Subclasses ----------------
 
     // Create a new resource, specifying the type for subclass differentiation
+
+
     @PostMapping("/add")
     public String addRessource(
             @RequestParam String nom,
@@ -42,7 +45,7 @@ public class RessourceController {
                 sparqlUtils.addRessourceNaturelle(nom, description, quantite, dateAjout, source);
                 return "Ressource Naturelle added successfully!";
             case "educative":
-                sparqlUtils.addRessourceEducative(nom, description, titre, format, niveauCompetence);
+                sparqlUtils.addRessourceEducative(nom, description, titre, format, niveauCompetence,quantite,dateAjout);
                 return "Ressource Éducative added successfully!";
             default:
                 return "Invalid resource type!";
@@ -82,10 +85,11 @@ public class RessourceController {
     }
 
     // Update a resource by type
-    @PutMapping("/edit/{type}/{nom}")
+    @PutMapping("/edit/{type}/{id}")
     public ResponseEntity<String> editRessource(
+            @PathVariable String id,
             @PathVariable String type,
-            @PathVariable String nom,
+            @RequestParam(required = false) String nom,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) int quantite,
             @RequestParam(required = false) String dateAjout,
@@ -100,13 +104,13 @@ public class RessourceController {
         // Mise à jour selon le type
         switch (type.toLowerCase()) {
             case "materielle":
-                sparqlUtils.editRessourceMaterielle( nom, description, quantite, dateAjout, typeMateriel, etat, disponibilite);
+                sparqlUtils.editRessourceMaterielle( id,nom, description, quantite, dateAjout, typeMateriel, etat, disponibilite);
                 return ResponseEntity.ok("Ressource Matérielle mise à jour avec succès!");
             case "naturelle":
-                sparqlUtils.editRessourceNaturelle( nom, description, quantite, dateAjout, source);
+                sparqlUtils.editRessourceNaturelle(id,nom, description, quantite, dateAjout, source);
                 return ResponseEntity.ok("Ressource Naturelle mise à jour avec succès!");
             case "educative":
-                sparqlUtils.editRessourceEducative( nom, description,quantite, titre, format, niveauCompetence);
+                sparqlUtils.editRessourceEducative( id,nom, description,quantite,dateAjout, titre, format, niveauCompetence);
                 return ResponseEntity.ok("Ressource Éducative mise à jour avec succès!");
             default:
                 return ResponseEntity.badRequest().body("Type de ressource invalide!");
@@ -114,20 +118,15 @@ public class RessourceController {
     }
 
     // Delete a resource by type
-    @DeleteMapping("/delete/{type}/{nom}")
-    public String deleteRessource(@PathVariable String type, @PathVariable String nom) {
-        switch (type.toLowerCase()) {
-            case "materielle":
-                sparqlUtils.deleteRessourceMaterielle(nom);
-                return "Ressource Matérielle deleted successfully!";
-            case "naturelle":
-                sparqlUtils.deleteRessourceNaturelle(nom);
-                return "Ressource Naturelle deleted successfully!";
-            case "educative":
-                sparqlUtils.deleteRessourceEducative(nom);
-                return "Ressource Éducative deleted successfully!";
-            default:
-                return "Invalid resource type!";
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteRessource(@PathVariable String id) {
+        boolean isDeleted = sparqlUtils.deleteRessource(id); // Assuming you will implement this method in SparqlUtils
+
+        if (isDeleted) {
+            return ResponseEntity.ok("Ressource with ID " + id + " deleted successfully!");
+        } else {
+            return ResponseEntity.status(404).body("Ressource with ID " + id + " not found.");
         }
     }
+
 }

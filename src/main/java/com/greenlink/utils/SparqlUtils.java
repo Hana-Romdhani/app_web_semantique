@@ -62,68 +62,105 @@ public class SparqlUtils {
         return jenaEngine.executeSelectQuery(query);
     }
 
+
     public void addRessourceMaterielle(String nom, String description, int quantite, String dateAjout, String typeMateriel, String etat, Boolean disponibilite) {
+        String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#date>", dateAjout);
         String disponibiliteValue = disponibilite ? "true" : "false";
+        String ressourceUri = AGRICULTURE_NAMESPACE + "ressource" + java.util.UUID.randomUUID();
+
         String query = String.format(
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " +
                         "INSERT DATA { " +
-                        "  _:ressource a <%sRessourceMaterielle> ; " +
-                        "              <%snom> \"%s\" ; " +
-                        "              <%sdescription> \"%s\" ; " +
-                        "              <%squantite> \"%d\"^^xsd:int ; " +
-                        "              <%sdateAjout> \"%s\"^^xsd:date ; " +
-                        "              <%stypeMateriel> \"%s\" ; " +
-                        "              <%setat> \"%s\" ; " +
-                        "              <%sdisponibilite> \"%s\"^^xsd:boolean . " +
+                        "  <%s> a <%sRessourceMaterielle> ; " + // Directly using ressourceUri here as a URI
+                        "      <%snom> \"%s\" ; " +
+                        "      <%sdescription> \"%s\" ; " +
+                        "      <%squantite> \"%d\"^^xsd:int ; " +
+                        "      <%sdateAjout> %s ; " + // formattedDate already includes xsd:date
+                        "      <%stypeMateriel> \"%s\" ; " +
+                        "      <%setat> \"%s\" ; " +
+                        "      <%sdisponibilite> \"%s\"^^xsd:boolean . " +
                         "}",
-                AGRICULTURE_NAMESPACE, AGRICULTURE_NAMESPACE, nom, AGRICULTURE_NAMESPACE, description,
-                AGRICULTURE_NAMESPACE, quantite, AGRICULTURE_NAMESPACE, dateAjout,
+                ressourceUri, AGRICULTURE_NAMESPACE, AGRICULTURE_NAMESPACE, nom, AGRICULTURE_NAMESPACE, description,
+                AGRICULTURE_NAMESPACE, quantite,
+                AGRICULTURE_NAMESPACE, formattedDate,
                 AGRICULTURE_NAMESPACE, typeMateriel, AGRICULTURE_NAMESPACE, etat,
                 AGRICULTURE_NAMESPACE, disponibiliteValue
         );
 
+        // Execute the SPARQL update using JenaEngine and save the model to file
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
 
+
     public void addRessourceNaturelle(String nom, String description, int quantite, String dateAjout, String source) {
+        // Format the date using the full IRI for xsd:date
+        String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#date>", dateAjout);
+        String ressourceUri = AGRICULTURE_NAMESPACE + "ressource" + java.util.UUID.randomUUID();
+
+        // Correcting placeholders and adding ressourceUri in the query as a full URI
         String query = String.format(
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " +
                         "INSERT DATA { " +
-                        "  _:ressource a <%sRessourceNaturelle> ; " +
-                        "              <%snom> \"%s\" ; " +
-                        "              <%sdescription> \"%s\" ; " +
-                        "              <%squantite> \"%d\"^^xsd:int ; " +
-                        "              <%sdateAjout> \"%s\"^^xsd:date ; " +
-                        "              <%ssource> \"%s\" . " +
+                        "  <%s> a <%sRessourceNaturelle> ; " +  // Using the full URI for the resource
+                        "      <%snom> \"%s\" ; " +
+                        "      <%sdescription> \"%s\" ; " +
+                        "      <%squantite> \"%d\"^^xsd:int ; " +
+                        "      <%sdateAjout> %s ; " +  // Using formattedDate directly
+                        "      <%ssource> \"%s\" . " +
                         "}",
-                AGRICULTURE_NAMESPACE, AGRICULTURE_NAMESPACE, nom, AGRICULTURE_NAMESPACE, description,
-                AGRICULTURE_NAMESPACE, quantite, AGRICULTURE_NAMESPACE, dateAjout,
+                ressourceUri,  // Insert the generated resource URI
+                AGRICULTURE_NAMESPACE,
+                AGRICULTURE_NAMESPACE, nom,
+                AGRICULTURE_NAMESPACE, description,
+                AGRICULTURE_NAMESPACE, quantite,
+                AGRICULTURE_NAMESPACE, formattedDate,  // Use the pre-formatted date
                 AGRICULTURE_NAMESPACE, source
         );
 
+        // Execute the SPARQL update using JenaEngine and save the model to file
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
 
-    public void addRessourceEducative(String nom, String description, String titre, String format, String niveauCompetence) {
+
+    public void addRessourceEducative(String nom, String description, String titre, String format, String niveauCompetence, int quantite, String dateAjout) {
+        // Formatage de la date pour le langage RDF
+        String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#date>", dateAjout);
+
+        // Génération d'un URI unique pour la ressource éducative
+        String ressourceUri = AGRICULTURE_NAMESPACE + "ressource" + java.util.UUID.randomUUID();
+
+        // Construction de la requête SPARQL
         String query = String.format(
                 "INSERT DATA { " +
-                        "  _:ressource a <%sRessourceEducative> ; " +
+                        "  <%s> a <%sRessourceEducative> ; " +
                         "              <%snom> \"%s\" ; " +
                         "              <%sdescription> \"%s\" ; " +
                         "              <%stitre> \"%s\" ; " +
                         "              <%sformat> \"%s\" ; " +
-                        "              <%sniveauCompetence> \"%s\" . " +
+                        "              <%sniveauCompetence> \"%s\" ; " + // Ajout du point-virgule ici
+                        "              <%squantite> %d ; " + // Utiliser %d pour un entier
+                        "              <%sdateAjout> %s . " +  // Utilisation de formattedDate
+
                         "}",
-                AGRICULTURE_NAMESPACE, AGRICULTURE_NAMESPACE, nom, AGRICULTURE_NAMESPACE, description,
-                AGRICULTURE_NAMESPACE, titre, AGRICULTURE_NAMESPACE, format,
-                AGRICULTURE_NAMESPACE, niveauCompetence
+                ressourceUri, // URI généré
+                AGRICULTURE_NAMESPACE , // Corrigé le namespace
+                AGRICULTURE_NAMESPACE, nom,
+                AGRICULTURE_NAMESPACE, description,
+                AGRICULTURE_NAMESPACE, titre,
+                AGRICULTURE_NAMESPACE, format,
+                AGRICULTURE_NAMESPACE, niveauCompetence,
+                AGRICULTURE_NAMESPACE, quantite, // Ajustement ici pour utiliser %d
+                AGRICULTURE_NAMESPACE, formattedDate // Utilisation de la date pré-formatée
         );
 
+        // Exécution de la mise à jour de la requête
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
+
+
 
     // Get all resources
     // Get all resources regardless of type
@@ -306,148 +343,162 @@ public class SparqlUtils {
 
         return resultString.toString();
     }
+    public void editRessourceMaterielle(String id, String nom, String description, int quantite, String dateAjout, String typeMateriel, String etat, Boolean disponibilite) {
+        // Format the date for the SPARQL query
+        String formattedDateAjout = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#date>", dateAjout);
+        String ressourceUri = AGRICULTURE_NAMESPACE + id;
 
-
-    // Edit methods for each resource type
-    public void editRessourceMaterielle(String nom, String description, int quantite, String dateAjout, String typeMateriel, String etat, Boolean disponibilite) {
-        String updateQuery = String.format(
-                "PREFIX agri: <%s> " +
+        // Construct the SPARQL update query
+        String query = String.format(
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " +
+                        "PREFIX agr: <%s> " +
                         "DELETE { " +
-                        "  ?ressource agri:description ?oldDescription . " +
-                        "  ?ressource agri:quantite ?oldQuantite . " +
-                        "  ?ressource agri:typeMateriel ?oldTypeMateriel . " +
-                        "  ?ressource agri:etat ?oldEtat . " +
-                        "  ?ressource agri:disponibilite ?oldDisponibilite . " +
+                        "  <%s> agr:nom ?nom ; " +
+                        "        agr:description ?description ; " +
+                        "        agr:quantite ?quantite ; " +
+                        "        agr:typeMateriel ?typeMateriel ; " +
+                        "        agr:etat ?etat ; " +
+                        "        agr:disponibilite ?disponibilite ; " +
+                        "        agr:dateAjout ?dateAjout ; " +
                         "} " +
                         "INSERT { " +
-                        "  ?ressource agri:description \"%s\" ; " +
-                        "             agri:quantite %d ; " +
-                        "             agri:typeMateriel \"%s\" ; " +
-                        "             agri:etat \"%s\" ; " +
-                        "             agri:disponibilite %s . " +
+                        "  <%s> agr:nom \"%s\" ; " +
+                        "        agr:description \"%s\" ; " +
+                        "        agr:quantite \"%s\"^^xsd:int ; " +
+                        "        agr:typeMateriel \"%s\" ; " +
+                        "        agr:etat \"%s\" ; " +
+                        "        agr:disponibilite \"%s\" ; " +
+                        "        agr:dateAjout %s ; " +
                         "} " +
                         "WHERE { " +
-                        "  ?ressource agri:nom \"%s\" . " +
-                        "  OPTIONAL { ?ressource agri:description ?oldDescription . } " +
-                        "  OPTIONAL { ?ressource agri:quantite ?oldQuantite . } " +
-                        "  OPTIONAL { ?ressource agri:typeMateriel ?oldTypeMateriel . } " +
-                        "  OPTIONAL { ?ressource agri:etat ?oldEtat . } " +
-                        "  OPTIONAL { ?ressource agri:disponibilite ?oldDisponibilite . } " +
+                        "  OPTIONAL { <%s> agr:nom ?nom . } " +
+                        "  OPTIONAL { <%s> agr:description ?description . } " +
+                        "  OPTIONAL { <%s> agr:quantite ?quantite . } " +
+                        "  OPTIONAL { <%s> agr:typeMateriel ?typeMateriel . } " +
+                        "  OPTIONAL { <%s> agr:etat ?etat . } " +
+                        "  OPTIONAL { <%s> agr:disponibilite ?disponibilite . } " +
+                        "  OPTIONAL { <%s> agr:dateAjout ?dateAjout . } " +
+                        "  <%s> a agr:RessourceMaterielle . " +  // Ensure the resource type matches
                         "}",
-                AGRICULTURE_NAMESPACE, description, quantite, typeMateriel, etat, disponibilite ? "true" : "false", nom
+                AGRICULTURE_NAMESPACE, ressourceUri, ressourceUri,
+                nom, description, quantite, typeMateriel,etat,disponibilite, formattedDateAjout,
+                ressourceUri, ressourceUri, ressourceUri, ressourceUri, ressourceUri, ressourceUri,ressourceUri,ressourceUri
         );
 
-        // Exécutez la requête de mise à jour
-        jenaEngine.executeUpdate(jenaEngine.getModel(), updateQuery);
+        // Log the SPARQL update query for debugging
+        System.out.println("Executing SPARQL Update: " + query);
+
+        // Execute the SPARQL update and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
 
 
+    public void editRessourceNaturelle(String id,String nom, String description, int quantite, String dateAjout, String source) {
+        // Format the date for the SPARQL query
+        String formattedDateAjout = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#date>", dateAjout);
+        String ressourceUri = AGRICULTURE_NAMESPACE + id;
 
-    public void editRessourceNaturelle(String nom, String description, int quantite, String dateAjout, String source) {
-        String updateQuery = String.format(
-                "PREFIX agri: <%s> " +
+        // Construct the SPARQL update query
+        String query = String.format(
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " +
+                        "PREFIX agr: <%s> " +
                         "DELETE { " +
-                        "  ?ressource agri:description ?oldDescription . " +
-                        "  ?ressource agri:quantite ?oldQuantite . " +
-                        "  ?ressource agri:dateAjout ?oldDateAjout . " +
-                        "  ?ressource agri:source ?oldSource . " +
+                        "  <%s> agr:nom ?nom ; " +
+                        "        agr:description ?description ; " +
+                        "        agr:quantite ?quantite ; " +
+                        "        agr:source ?source ; " +
+                        "        agr:dateAjout ?dateAjout ; " +
                         "} " +
                         "INSERT { " +
-                        "  ?ressource agri:description \"%s\" ; " +
-                        "             agri:quantite %d ; " +
-                        "             agri:dateAjout \"%s\" ; " +
-                        "             agri:source \"%s\" . " +
+                        "  <%s> agr:nom \"%s\" ; " +
+                        "        agr:description \"%s\" ; " +
+                        "        agr:quantite \"%s\"^^xsd:int ; " +
+                        "        agr:source \"%s\" ; " +
+                        "        agr:dateAjout %s ; " +
                         "} " +
                         "WHERE { " +
-                        "  ?ressource agri:nom \"%s\" . " +
-                        "  OPTIONAL { ?ressource agri:description ?oldDescription . } " +
-                        "  OPTIONAL { ?ressource agri:quantite ?oldQuantite . } " +
-                        "  OPTIONAL { ?ressource agri:dateAjout ?oldDateAjout . } " +
-                        "  OPTIONAL { ?ressource agri:source ?oldSource . } " +
+                        "  OPTIONAL { <%s> agr:nom ?nom . } " +
+                        "  OPTIONAL { <%s> agr:description ?description . } " +
+                        "  OPTIONAL { <%s> agr:quantite ?quantite . } " +
+                        "  OPTIONAL { <%s> agr:source ?source . } " +
+                        "  OPTIONAL { <%s> agr:dateAjout ?dateAjout . } " +
+                        "  <%s> a agr:RessourceNaturelle . " +  // Ensure the resource type matches
                         "}",
-                AGRICULTURE_NAMESPACE, description, quantite, dateAjout, source, nom
+                AGRICULTURE_NAMESPACE, ressourceUri, ressourceUri,
+                nom, description, quantite, source, formattedDateAjout,
+                ressourceUri, ressourceUri, ressourceUri, ressourceUri, ressourceUri, ressourceUri
         );
 
-        // Exécutez la requête de mise à jour
-        jenaEngine.executeUpdate(jenaEngine.getModel(), updateQuery);
+        // Log the SPARQL update query for debugging
+        System.out.println("Executing SPARQL Update: " + query);
+
+        // Execute the SPARQL update and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
 
 
+    public void editRessourceEducative(String id,String nom, String description, int quantite, String dateAjout, String titre, String format, String niveauCompetence) {
+        // Format the date for the SPARQL query
+        String formattedDateAjout = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#date>", dateAjout);
+        String ressourceUri = AGRICULTURE_NAMESPACE + id;
 
-    public void editRessourceEducative(String nom, String description, int quantite,String titre, String format, String niveauCompetence) {
-        String updateQuery = String.format(
-                "PREFIX agri: <%s> " +
+        // Construct the SPARQL update query
+        String query = String.format(
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " +
+                        "PREFIX agr: <%s> " +
                         "DELETE { " +
-                        "  ?ressource agri:description ?oldDescription . " +
-                        "  ?ressource agri:quantite ?oldQuantite . " +
-                        "  ?ressource agri:titre ?oldTitre . " +
-                        "  ?ressource agri:format ?oldFormat . " +
-                        "  ?ressource agri:niveauCompetence ?oldNiveauCompetence . " +
+                        "  <%s> agr:nom ?nom ; " +
+                        "        agr:description ?description ; " +
+                        "        agr:quantite ?quantite ; " +
+                        "        agr:titre ?titre ; " +
+                        "        agr:format ?format ; " +
+                        "        agr:niveauCompetence ?niveauCompetence ; " +
+                        "        agr:dateAjout ?dateAjout ; " +
                         "} " +
                         "INSERT { " +
-                        "  ?ressource agri:description \"%s\" ; " +
-                        "             agri:quantite %d ; " +
-                        "             agri:titre \"%s\" ; " +
-                        "             agri:format \"%s\" ; " +
-                        "             agri:niveauCompetence \"%s\" . " +
+                        "  <%s> agr:nom \"%s\" ; " +
+                        "        agr:description \"%s\" ; " +
+                        "        agr:quantite \"%s\"^^xsd:int ; " +
+                        "        agr:titre \"%s\" ; " +
+                        "        agr:format \"%s\" ; " +
+                        "        agr:niveauCompetence \"%s\" ; " +
+                        "        agr:dateAjout %s ; " +
                         "} " +
                         "WHERE { " +
-                        "  ?ressource agri:nom \"%s\" . " +
-                        "  OPTIONAL { ?ressource agri:description ?oldDescription . } " +
-                        "  OPTIONAL { ?ressource agri:quantite ?oldQuantite . } " +
-                        "  OPTIONAL { ?ressource agri:titre ?oldTitre . } " +
-                        "  OPTIONAL { ?ressource agri:format ?oldFormat . } " +
-                        "  OPTIONAL { ?ressource agri:niveauCompetence ?oldNiveauCompetence . } " +
+                        "  OPTIONAL { <%s> agr:nom ?nom . } " +
+                        "  OPTIONAL { <%s> agr:description ?description . } " +
+                        "  OPTIONAL { <%s> agr:quantite ?quantite . } " +
+                        "  OPTIONAL { <%s> agr:titre ?titre . } " +
+                        "  OPTIONAL { <%s> agr:format ?format . } " +
+                        "  OPTIONAL { <%s> agr:niveauCompetence ?niveauCompetence . } " +
+                        "  OPTIONAL { <%s> agr:dateAjout ?dateAjout . } " +
+                        "  <%s> a agr:RessourceEducative . " +  // Ensure the resource type matches
                         "}",
-                AGRICULTURE_NAMESPACE, description,quantite, titre, format, niveauCompetence, nom
+                AGRICULTURE_NAMESPACE, ressourceUri, ressourceUri,
+                nom, description, quantite, titre,format,niveauCompetence, formattedDateAjout,
+                ressourceUri, ressourceUri, ressourceUri, ressourceUri, ressourceUri, ressourceUri,ressourceUri,ressourceUri
         );
 
-        // Exécutez la requête de mise à jour
-        jenaEngine.executeUpdate(jenaEngine.getModel(), updateQuery);
+        // Log the SPARQL update query for debugging
+        System.out.println("Executing SPARQL Update: " + query);
+
+        // Execute the SPARQL update and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
-
 
     // Delete resource method
-    public void deleteRessourceMaterielle(String nom) {
-        String query = String.format(
-                "PREFIX agri: <%s> " +
-                        "DELETE WHERE { " +
-                        "  ?ressource agri:nom \"%s\" . " +
-                        "}",
-                AGRICULTURE_NAMESPACE, nom
-        );
+
+    public boolean deleteRessource(String id) {
+        String ressourceUri = AGRICULTURE_NAMESPACE + id;
+        String query = String.format("DELETE WHERE { <%s> ?property ?value . }", ressourceUri);
 
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
+        return true;
     }
 
-    public void deleteRessourceNaturelle(String nom) {
-        String query = String.format(
-                "PREFIX agri: <%s> " +
-                        "DELETE WHERE { " +
-                        "  ?ressource agri:nom \"%s\" . " +
-                        "}",
-                AGRICULTURE_NAMESPACE, nom
-        );
-
-        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
-        jenaEngine.saveModelToFile();
-    }
-
-    public void deleteRessourceEducative(String nom) {
-        String query = String.format(
-                "PREFIX agri: <%s> " +
-                        "DELETE WHERE { " +
-                        "  ?ressource agri:nom \"%s\" . " +
-                        "}",
-                AGRICULTURE_NAMESPACE, nom
-        );
-
-        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
-        jenaEngine.saveModelToFile();
-    }
 
 }
