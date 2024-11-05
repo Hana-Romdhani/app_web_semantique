@@ -25,29 +25,28 @@ public class PlantModuleController {
         return sparqlUtils.getAllPlantes();
     }
 
-    @GetMapping("/categories")
-    public List<Map<String, String>> getAllCategoriesPlante() {
-        System.out.println("Fetching all CategoriePlante instances...");
-        return sparqlUtils.getAllCategoriesPlante();
+    @GetMapping("/plantes/{id}")
+    public Map<String, String> getPlanteById(@PathVariable String id) {
+        return sparqlUtils.getPlanteById(id);
     }
 
     @PostMapping("/plantes/add")
     public String addPlante(
-            @RequestParam(required = false) String id,
+            @RequestParam (required = false) String id,
             @RequestParam String nom,
-            @RequestParam String description,
-            @RequestParam String hauteur,
-            @RequestParam String type,
-            @RequestParam String saison) {
-
-        // Generate an automatic ID if none is provided
-        if (id == null || id.isEmpty()) {
-            id = "Plante_" + UUID.randomUUID().toString(); // Generates a unique ID
-        }
-
-        sparqlUtils.addPlante(id, nom, description, hauteur, type, saison);
-        return "Plante with ID " + id + " added successfully!";
+            @RequestParam (required = false) String description,
+            @RequestParam (required = false) String hauteur,
+            @RequestParam (required = false) String type,
+            @RequestParam (required = false) String saison,
+            @RequestParam (required = false) String classType,
+            @RequestParam(required = false) String saisonRecolte, // Optional for PlanteFruitiere and PlanteLegume
+            @RequestParam(required = false) String couleurFruit,  // Optional for PlanteFruitiere
+            @RequestParam(required = false) String couleurFleurs  // Optional for PlanteOrnementale
+    ) {
+        sparqlUtils.addPlante(id, nom, description, hauteur, type, saison, classType, saisonRecolte, couleurFruit, couleurFleurs);
+        return "Plante with ID " + id + " of type " + classType + " added successfully!";
     }
+
 
     // Endpoint to update a Plante
     @PutMapping("/plantes/update")
@@ -70,11 +69,29 @@ public class PlantModuleController {
         return "Plante with ID " + id + " deleted successfully!";
     }
 
-    @GetMapping("/plantes/{id}")
-    public Map<String, String> getPlanteById(@PathVariable String id) {
-        return sparqlUtils.getPlanteById(id);
+    // Endpoint to get all PlanteFruitieres
+    @GetMapping("/plantes/fruitieres")
+    public List<Map<String, String>> getAllPlanteFruitieres() {
+        return sparqlUtils.getAllPlanteFruitieres();
     }
 
+    // Endpoint to retrieve all PlanteLegume
+    @GetMapping("/plantes/legumes")
+    public List<Map<String, String>> getAllPlanteLegumes() {
+        return sparqlUtils.getAllPlanteLegumes();
+    }
+
+    // Endpoint to retrieve all PlanteOrnementale
+    @GetMapping("/plantes/ornementales")
+    public List<Map<String, String>> getAllPlanteOrnementales() {
+        return sparqlUtils.getAllPlanteOrnementales();
+    }
+
+    @GetMapping("/categories")
+    public List<Map<String, String>> getAllCategoriesPlante() {
+        System.out.println("Fetching all CategoriePlante instances...");
+        return sparqlUtils.getAllCategoriesPlante();
+    }
 
 
 
