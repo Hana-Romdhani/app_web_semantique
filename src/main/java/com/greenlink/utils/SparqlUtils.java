@@ -456,4 +456,125 @@ public class SparqlUtils {
         jenaEngine.saveModelToFile();
     }
 
+
+    // ******************************************************************
+    // ****************************************************************** Events
+    public List<Map<String, String>> getAllEvents() {
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "SELECT ?event ?classType ?id ?title ?description ?location ?date " +
+                        "WHERE { " +
+                        "    ?event a ?classType ; " +  // Retrieve the specific class type of the event
+                        "           agri:idEvent ?id ; " +
+                        "           agri:titreEvenement ?title ; " +
+                        "           agri:descriptionEvenement ?description ; " +
+                        "           agri:lieuEvenement ?location ; " +
+                        "           agri:dateEvenement ?date . " +
+                        "    FILTER(?classType IN (agri:EvenementLocal, agri:Conference, agri:Webinaire, agri:AtelierPratique, agri:Formation)) " +
+                        "}",
+                AGRICULTURE_NAMESPACE
+        );
+
+        List<Map<String, String>> events = new ArrayList<>();
+        try (QueryExecution qexec = QueryExecutionFactory.create(QueryFactory.create(query), jenaEngine.getModel())) {
+            ResultSet results = qexec.execSelect();
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                Map<String, String> eventData = new HashMap<>();
+                eventData.put("classType", soln.getResource("classType").getLocalName()); // Capture the class type name
+                eventData.put("id", soln.getLiteral("id").getString());
+                eventData.put("title", soln.getLiteral("title").getString());
+                eventData.put("description", soln.getLiteral("description").getString());
+                eventData.put("location", soln.getLiteral("location").getString());
+                eventData.put("date", soln.getLiteral("date").getString());
+                events.add(eventData);
+            }
+        }
+        System.out.println("Retrieved events: " + events); // Log the output to verify
+        return events;
+    }
+
+    public String addEvent(String id, String title, String description, String location, String date, String classType) {
+        if (id == null || id.isEmpty()) {
+            id = "Event_" + UUID.randomUUID().toString(); // Generates a unique ID
+        }
+        String eventURI = AGRICULTURE_NAMESPACE + id;
+
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "INSERT DATA { " +
+                        "  <%s> a agri:%s ; " +
+                        "       agri:idEvent \"%s\" ; " +
+                        "       agri:titreEvenement \"%s\" ; " +
+                        "       agri:descriptionEvenement \"%s\" ; " +
+                        "       agri:lieuEvenement \"%s\" ; " +
+                        "       agri:dateEvenement \"%s\" . " +
+                        "}",
+                AGRICULTURE_NAMESPACE,
+                eventURI,
+                classType,
+                id,
+                title,
+                description,
+                location,
+                date
+        );
+
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+
+        return id; // Return the generated or provided ID
+    }
+
+    public List<Map<String, String>> getEventsByClassType(String classType) {
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "SELECT ?event ?id ?title ?description ?location ?date " +
+                        "WHERE { " +
+                        "    ?event a agri:%s ; " + // Dynamically match the specified classType
+                        "           agri:idEvent ?id ; " +
+                        "           agri:titreEvenement ?title ; " +
+                        "           agri:descriptionEvenement ?description ; " +
+                        "           agri:lieuEvenement ?location ; " +
+                        "           agri:dateEvenement ?date . " +
+                        "}",
+                AGRICULTURE_NAMESPACE,
+                classType
+        );
+
+        List<Map<String, String>> events = new ArrayList<>();
+        try (QueryExecution qexec = QueryExecutionFactory.create(QueryFactory.create(query), jenaEngine.getModel())) {
+            ResultSet results = qexec.execSelect();
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                Map<String, String> eventData = new HashMap<>();
+                eventData.put("id", soln.getLiteral("id").getString());
+                eventData.put("title", soln.getLiteral("title").getString());
+                eventData.put("description", soln.getLiteral("description").getString());
+                eventData.put("location", soln.getLiteral("location").getString());
+                eventData.put("date", soln.getLiteral("date").getString());
+                events.add(eventData);
+            }
+        }
+        return events;
+    }
+
+    public void deleteEvent(String id) {
+        // Construct the full URI for the event using the namespace and id
+        String eventURI = AGRICULTURE_NAMESPACE + id;
+
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "DELETE WHERE { " +
+                        "  <%s> ?p ?o . " + // Delete all properties associated with the event URI
+                        "}",
+                AGRICULTURE_NAMESPACE,
+                eventURI
+        );
+
+        // Execute the SPARQL update to delete the event and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+    }
+
 }
