@@ -49,7 +49,6 @@ public class PlantModuleController {
         return "Plante with ID " + id + " added successfully!";
     }
 
-
     // Endpoint to update a Plante
     @PutMapping("/plantes/update")
     public String updatePlante(
@@ -64,13 +63,16 @@ public class PlantModuleController {
         return "Plante with ID " + id + " updated successfully!";
     }
 
-
-
     // Endpoint to delete a Plante
     @DeleteMapping("/plantes/delete")
     public String deletePlante(@RequestParam String id) {
         sparqlUtils.deletePlante(id);
         return "Plante with ID " + id + " deleted successfully!";
+    }
+
+    @GetMapping("/plantes/{id}")
+    public Map<String, String> getPlanteById(@PathVariable String id) {
+        return sparqlUtils.getPlanteById(id);
     }
 
 

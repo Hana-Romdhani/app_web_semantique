@@ -199,5 +199,37 @@ public class SparqlUtils {
         jenaEngine.saveModelToFile();
     }
 
+    public Map<String, String> getPlanteById(String id) {
+        String planteURI = AGRICULTURE_NAMESPACE + id; // Construct the URI for the Plante
+
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "SELECT ?nom ?description ?hauteur ?type ?saison " +
+                        "WHERE { " +
+                        "    <%s> a agri:Plante ; " +
+                        "          agri:nomPlante ?nom ; " +
+                        "          agri:descriptionPlante ?description ; " +
+                        "          agri:hauteurMaximalePlante ?hauteur ; " +
+                        "          agri:typePlante ?type ; " +
+                        "          agri:saisonPlantationPlante ?saison . " +
+                        "}",
+                AGRICULTURE_NAMESPACE, planteURI);
+
+        Map<String, String> planteData = new HashMap<>();
+        try (QueryExecution qexec = QueryExecutionFactory.create(QueryFactory.create(query), jenaEngine.getModel())) {
+            ResultSet results = qexec.execSelect();
+            if (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                planteData.put("id", id); // Add the id to the map
+                planteData.put("nom", soln.getLiteral("nom").getString());
+                planteData.put("description", soln.getLiteral("description").getString());
+                planteData.put("hauteur", soln.getLiteral("hauteur").getString());
+                planteData.put("type", soln.getLiteral("type").getString());
+                planteData.put("saison", soln.getLiteral("saison").getString());
+            }
+        }
+        return planteData;
+    }
+
 
 }
