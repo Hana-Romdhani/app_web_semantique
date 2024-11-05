@@ -1,6 +1,6 @@
 package com.greenlink.config;
 
-import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
@@ -13,6 +13,11 @@ import org.springframework.stereotype.Component;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Component
 public class JenaEngine {
 
@@ -60,8 +65,17 @@ public class JenaEngine {
     // Execute a SPARQL update
     public void executeUpdate(Model model, String query) {
         UpdateRequest updateRequest = UpdateFactory.create(query);
-        UpdateProcessor processor = UpdateExecutionFactory.create(updateRequest, DatasetFactory.create(this.model));
-        processor.execute();
+        UpdateProcessor processor = UpdateExecutionFactory.create(updateRequest, DatasetFactory.create(model));
+
+        // Log the query for debugging
+        System.out.println("Executing SPARQL Update: " + query);
+
+        try {
+            processor.execute();
+            System.out.println("Update executed successfully.");
+        } catch (Exception e) {
+            System.err.println("Failed to execute update: " + e.getMessage());
+        }
     }
 
     // Save the updated model to the OWL file
@@ -72,6 +86,45 @@ public class JenaEngine {
             e.printStackTrace();
         }
     }
+
+
+    public ResultSet executeQuery(String queryString) {
+        // Create a query execution object
+        Query query = QueryFactory.create(queryString);
+        try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+            // Execute the query and return the results
+            return qexec.execSelect();
+        } catch (Exception e) {
+            System.out.println("Error executing query: " + e.getMessage());
+            return null; // Return null or handle error appropriately
+        }
+    }
+
+    public List<Map<String, String>> executeSelectMultiple(Model model, String query, String[] variableNames) {
+        List<Map<String, String>> results = new ArrayList<>();
+
+        try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+            ResultSet resultSet = qexec.execSelect();
+            while (resultSet.hasNext()) {
+                QuerySolution soln = resultSet.nextSolution();
+                Map<String, String> resultMap = new HashMap<>();
+
+                for (String varName : variableNames) {
+                    if (soln.get(varName) != null) {
+                        resultMap.put(varName, soln.get(varName).toString());
+                    } else {
+                        resultMap.put(varName, "N/A"); // Or handle null appropriately
+                    }
+                }
+                results.add(resultMap);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the error
+        }
+
+        return results;
+    }
+
 
     // Accessor for the model
     public Model getModel() {
