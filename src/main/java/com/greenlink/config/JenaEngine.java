@@ -20,7 +20,7 @@ public class JenaEngine {
 
     private final String owlFilePath;
 
-    public JenaEngine(@Value("${owl.file.path:src/main/resources/owl/greenlink.owl}") String owlFilePath) {
+    public JenaEngine(@Value("${owl.file.path:src/main/resources/owl/greenlinkversion2.owl}") String owlFilePath) {
         this.owlFilePath = owlFilePath;
         this.model = ModelFactory.createDefaultModel();
         loadModel();
