@@ -208,6 +208,33 @@ public class SparqlUtils {
 
         return id; // Return the updated dechet ID
     }
+    // Method to filter Dechets based on classType
+    public List<Map<String, String>> filterDechetsByClassType(String classType) {
+        if (classType == null || classType.isEmpty()) {
+            // Return all Dechets if no classType is provided
+            return getAllDechets();
+        }
 
+        // Construct the SPARQL query to filter by classType
+        String query = "SELECT ?id ?nomDechet ?descriptionDechet ?typeDechet ?methodeTraitement ?dangerosite ?classType WHERE {"
+                + " ?dechet rdf:type <DechetType> ."
+                + " ?dechet <hasClassType> \"" + classType + "\" ."
+                + " ?dechet <hasNomDechet> ?nomDechet ."
+                + " ?dechet <hasDescriptionDechet> ?descriptionDechet ."
+                + " ?dechet <hasTypeDechet> ?typeDechet ."
+                + " ?dechet <hasMethodeTraitement> ?methodeTraitement ."
+                + " ?dechet <hasDangerosite> ?dangerosite ."
+                + " ?dechet <hasClassType> ?classType ."
+                + " }";
+
+        // Execute the SPARQL query and return the results
+        return executeSparqlQuery(query);
+    }
+
+    // Dummy method for executing SPARQL queries, implement the actual logic
+    private List<Map<String, String>> executeSparqlQuery(String query) {
+        // Implement the logic to execute SPARQL queries and return the results
+        return null; // Replace with actual SPARQL query execution
+    }
 
 }

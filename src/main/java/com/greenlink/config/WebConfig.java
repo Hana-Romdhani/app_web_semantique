@@ -10,9 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // Apply to all endpoints
-                .allowedOrigins("*") // Modify this to specify allowed origins
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Specify allowed methods
-                .allowedHeaders("*"); // Specify allowed headers
+        registry.addMapping("/api/ontology/**") // Adjust the path as needed
+                .allowedOrigins("http://localhost:8080") // Replace with Laravel URL
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 }

@@ -2,8 +2,10 @@ package com.greenlink.controller;
 
 import com.greenlink.utils.SparqlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -68,18 +70,26 @@ public class DechetController {
         return "Dechet with ID " + id + " deleted successfully!";
     }
 
-    // Endpoint to update a dechet
+
     @PutMapping("/dechets/update")
-    public String updateDechet(
+    //public String updateEvent(
+    public ResponseEntity<Map<String, String>> updateDechet(
             @RequestParam String id,
-            @RequestParam String nomDechet,
-            @RequestParam(required = false) String descriptionDechet,
-            @RequestParam(required = false) String typeDechet,
-            @RequestParam(required = false) String methodeTraitement,
-            @RequestParam(required = false) String dangerosite,
-            @RequestParam(required = false) String classType
-    ) {
+            @RequestBody Map<String, String> data) {
+
+        String nomDechet = data.get("nomDechet");
+        String descriptionDechet = data.get("descriptionDechet");
+        String typeDechet = data.get("typeDechet");
+        String methodeTraitement = data.get("methodeTraitement");
+        String dangerosite = data.get("dangerosite");
+        String classType = data.get("classType");
+
+        // Appel à votre service SPARQL pour mettre à jour l'événement
         String updatedId = sparqlUtils.updateDechet(id, nomDechet, descriptionDechet, typeDechet, methodeTraitement, dangerosite, classType);
-        return "Dechet with ID " + updatedId + " updated successfully!";
+
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Dechet with ID " + updatedId + " updated successfully!");
+        return ResponseEntity.ok(response);
     }
 }
