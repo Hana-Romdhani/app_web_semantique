@@ -577,4 +577,44 @@ public class SparqlUtils {
         jenaEngine.saveModelToFile();
     }
 
+    public String updateEvent(String id, String title, String description, String location, String date, String classType) {
+
+        // Construct the full URI for the event using the namespace and id
+        String eventURI = AGRICULTURE_NAMESPACE + id;
+
+        // SPARQL query to delete the old values and insert the new ones
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "DELETE { " +
+                        "  <%s> agri:titreEvenement ?oldTitle ; " +
+                        "       agri:descriptionEvenement ?oldDescription ; " +
+                        "       agri:lieuEvenement ?oldLocation ; " +
+                        "       agri:dateEvenement ?oldDate ; " +
+                        "       a ?oldClassType . " +
+                        "} " +
+                        "INSERT { " +
+                        "  <%s> a agri:%s ; " +
+                        "       agri:titreEvenement \"%s\" ; " +
+                        "       agri:descriptionEvenement \"%s\" ; " +
+                        "       agri:lieuEvenement \"%s\" ; " +
+                        "       agri:dateEvenement \"%s\" . " +
+                        "} " +
+                        "WHERE { " +
+                        "  OPTIONAL { <%s> agri:titreEvenement ?oldTitle } " +
+                        "  OPTIONAL { <%s> agri:descriptionEvenement ?oldDescription } " +
+                        "  OPTIONAL { <%s> agri:lieuEvenement ?oldLocation } " +
+                        "  OPTIONAL { <%s> agri:dateEvenement ?oldDate } " +
+                        "  OPTIONAL { <%s> a ?oldClassType } " +
+                        "}",
+                AGRICULTURE_NAMESPACE, eventURI,
+                eventURI, classType, title, description, location, date,
+                eventURI, eventURI, eventURI, eventURI, eventURI
+        );
+
+        // Execute the SPARQL update query and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+
+        return id; // Return the updated event ID
+    }
 }
