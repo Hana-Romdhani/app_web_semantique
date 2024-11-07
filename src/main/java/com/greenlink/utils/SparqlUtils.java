@@ -7,6 +7,9 @@ import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -169,9 +172,12 @@ public class SparqlUtils {
 
 
     // Method to add JardinPartage
-    public void addJardinPartage(String nom, String localisation, Double superficie, List<String> plantes, String responsable, Integer nombreParticipants, String typeParticipation) {
-        String jardinUri = AGRICULTURE_NAMESPACE + "JardinPartage_" + java.util.UUID.randomUUID();
-        String plantesList = String.join(",", plantes); // Convert list of plantes to comma-separated string
+    public void addJardinPartage(String id,String nom, String localisation, Double superficie, String responsable, Integer nombreParticipants, String typeParticipation) {
+
+        if (id == null || id.isEmpty()) {
+            id = "JardinPartage_" + UUID.randomUUID().toString(); // Generates a unique ID
+        }
+        String jardinUri = AGRICULTURE_NAMESPACE + id;
         String query = String.format(
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " +
                         "INSERT DATA { " +
@@ -179,7 +185,6 @@ public class SparqlUtils {
                         "              <%snom> \"%s\" ; " +
                         "              <%slocalisation> \"%s\" ; " +
                         "              <%ssuperficie> \"%s\"^^xsd:double ; " +
-                        "              <%splantes> \"%s\" ; " +
                         "              <%sresponsable> \"%s\" ; " +
                         "              <%snombreParticipants> \"%s\"^^xsd:integer ; " +
                         "              <%stypeParticipation> \"%s\" . " +
@@ -189,7 +194,6 @@ public class SparqlUtils {
                 AGRICULTURE_NAMESPACE, nom,
                 AGRICULTURE_NAMESPACE, localisation,
                 AGRICULTURE_NAMESPACE, superficie.toString(),
-                AGRICULTURE_NAMESPACE, plantesList,
                 AGRICULTURE_NAMESPACE, responsable,
                 AGRICULTURE_NAMESPACE, nombreParticipants.toString(),
                 AGRICULTURE_NAMESPACE, typeParticipation
@@ -200,10 +204,20 @@ public class SparqlUtils {
     }
 
     // Method to add JardinPrive
-    public void addJardinPrive(String nom, String localisation, Double superficie, List<String> plantes, String responsable, String proprietaire, String dateCreation) {
+    public void addJardinPrive(String id,String nom, String localisation, Double superficie,  String responsable, String proprietaire, String dateCreation) {
+
+
+        if (id == null || id.isEmpty()) {
+            id = "JardinPrive_" + UUID.randomUUID().toString(); // Generates a unique ID
+        }
+        String jardinUri = AGRICULTURE_NAMESPACE + id;
+
         String formattedDate = String.format("\"%s\"^^xsd:date", dateCreation);
-        String jardinUri = AGRICULTURE_NAMESPACE + "JardinPrive_" + java.util.UUID.randomUUID();
-        String plantesList = String.join(",", plantes); // Convert list of plantes to comma-separated string
+
+        // Convert the plantes list into a comma-separated string
+
+
+        // Construct the SPARQL query with the local ID
         String query = String.format(
                 "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " +
                         "INSERT DATA { " +
@@ -211,41 +225,56 @@ public class SparqlUtils {
                         "              <%snom> \"%s\" ; " +
                         "              <%slocalisation> \"%s\" ; " +
                         "              <%ssuperficie> \"%s\"^^xsd:double ; " +
-                        "              <%splantes> \"%s\" ; " +
                         "              <%sresponsable> \"%s\" ; " +
                         "              <%sproprietaire> \"%s\" ; " +
                         "              <%sdateCreation> %s . " +
-                        "}",
-                jardinUri,
+                        "} ",
+                jardinUri, // Use the full URI here
                 AGRICULTURE_NAMESPACE,
                 AGRICULTURE_NAMESPACE, nom,
                 AGRICULTURE_NAMESPACE, localisation,
                 AGRICULTURE_NAMESPACE, superficie.toString(),
-                AGRICULTURE_NAMESPACE, plantesList,
                 AGRICULTURE_NAMESPACE, responsable,
                 AGRICULTURE_NAMESPACE, proprietaire,
                 AGRICULTURE_NAMESPACE, formattedDate
         );
 
+        // Execute the SPARQL query to add the JardinPrive data
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
+
+
     }
+
 
     public List<Map<String, String>> getAllJardins() {
         List<Map<String, String>> jardins = new ArrayList<>();
         String queryStr = String.format(
                 "PREFIX agr: <%s> " +
-                        "SELECT ?jardin ?nom ?localisation ?superficie ?plantes ?responsable ?nombreParticipants ?typeParticipation ?proprietaire ?dateCreation WHERE { " +
-                        "  ?jardin a agr:JardinPrive ; " +
-                        "         agr:nom ?nom ; " +
-                        "         agr:localisation ?localisation ; " +
-                        "         agr:superficie ?superficie ; " +
-                        "         agr:plantes ?plantes ; " +
-                        "         agr:responsable ?responsable . " +
-                        "  OPTIONAL { ?jardin agr:nombreParticipants ?nombreParticipants . } " +
-                        "  OPTIONAL { ?jardin agr:typeParticipation ?typeParticipation . } " +
-                        "  OPTIONAL { ?jardin agr:proprietaire ?proprietaire . } " +
-                        "  OPTIONAL { ?jardin agr:dateCreation ?dateCreation . } " +
+                        "SELECT ?jardin ?nom ?localisation ?superficie ?responsable ?nombreParticipants ?typeParticipation ?proprietaire ?dateCreation WHERE { " +
+                        "  { " +
+                        "    ?jardin a agr:JardinPrive ; " +
+                        "           agr:nom ?nom ; " +
+                        "           agr:localisation ?localisation ; " +
+                        "           agr:superficie ?superficie ; " +
+                        "           agr:responsable ?responsable . " +
+                        "    OPTIONAL { ?jardin agr:nombreParticipants ?nombreParticipants . } " +
+                        "    OPTIONAL { ?jardin agr:typeParticipation ?typeParticipation . } " +
+                        "    OPTIONAL { ?jardin agr:proprietaire ?proprietaire . } " +
+                        "    OPTIONAL { ?jardin agr:dateCreation ?dateCreation . } " +
+                        "  } " +
+                        "  UNION " +
+                        "  { " +
+                        "    ?jardin a agr:JardinPartage ; " +
+                        "           agr:nom ?nom ; " +
+                        "           agr:localisation ?localisation ; " +
+                        "           agr:superficie ?superficie ; " +
+                        "           agr:responsable ?responsable . " +
+                        "    OPTIONAL { ?jardin agr:nombreParticipants ?nombreParticipants . } " +
+                        "    OPTIONAL { ?jardin agr:typeParticipation ?typeParticipation . } " +
+                        "    OPTIONAL { ?jardin agr:proprietaire ?proprietaire . } " +
+                        "    OPTIONAL { ?jardin agr:dateCreation ?dateCreation . } " +
+                        "  } " +
                         "}",
                 AGRICULTURE_NAMESPACE
         );
@@ -258,19 +287,42 @@ public class SparqlUtils {
                 QuerySolution soln = results.nextSolution();
                 Map<String, String> jardin = new HashMap<>();
 
-                jardin.put("id", soln.getResource("jardin").getURI());
-                jardin.put("nom", soln.contains("nom") && soln.get("nom").isLiteral() ? soln.getLiteral("nom").getString() : "Nom non disponible");
-                jardin.put("localisation", soln.contains("localisation") && soln.get("localisation").isLiteral() ? soln.getLiteral("localisation").getString() : "Localisation non disponible");
-                jardin.put("superficie", soln.contains("superficie") && soln.get("superficie").isLiteral() ? soln.getLiteral("superficie").getDouble() + "" : "Superficie non disponible");
-                jardin.put("plantes", soln.contains("plantes") && soln.get("plantes").isLiteral() ? soln.getLiteral("plantes").getString() : "Plantes non disponible");
-                jardin.put("responsable", soln.contains("responsable") && soln.get("responsable").isLiteral() ? soln.getLiteral("responsable").getString() : "Responsable non disponible");
+                try {
+                    // Extract the URI and get the short ID (similar to the 'getAllEvenements' method)
+                    if (soln.contains("jardin") && soln.getResource("jardin") != null) {
+                        String fullUri = soln.getResource("jardin").getURI();
+                        String shortId = fullUri.substring(fullUri.lastIndexOf("#") + 1);
+                        jardin.put("id", shortId); // Using short ID
+                    } else {
+                        jardin.put("id", "ID non disponible");
+                    }
 
-                jardin.put("nombreParticipants", soln.contains("nombreParticipants") && soln.get("nombreParticipants").isLiteral() ? soln.getLiteral("nombreParticipants").getInt() + "" : "Nombre non disponible");
-                jardin.put("typeParticipation", soln.contains("typeParticipation") && soln.get("typeParticipation").isLiteral() ? soln.getLiteral("typeParticipation").getString() : "Type non disponible");
-                jardin.put("proprietaire", soln.contains("proprietaire") && soln.get("proprietaire").isLiteral() ? soln.getLiteral("proprietaire").getString() : "Propriétaire non disponible");
-                jardin.put("dateCreation", soln.contains("dateCreation") && soln.get("dateCreation").isLiteral() ? soln.getLiteral("dateCreation").getString() : "Date non disponible");
+                    // Extract the other attributes, ensuring they exist before adding them
+                    jardin.put("nom", soln.contains("nom") && soln.get("nom").isLiteral() ? soln.getLiteral("nom").getString() : "Nom non disponible");
+                    jardin.put("localisation", soln.contains("localisation") && soln.get("localisation").isLiteral() ? soln.getLiteral("localisation").getString() : "Localisation non disponible");
+                    jardin.put("superficie", soln.contains("superficie") && soln.get("superficie").isLiteral() ? soln.getLiteral("superficie").getDouble() + "" : "Superficie non disponible");
+                    jardin.put("responsable", soln.contains("responsable") && soln.get("responsable").isLiteral() ? soln.getLiteral("responsable").getString() : "Responsable non disponible");
+                    jardin.put("nombreParticipants", soln.contains("nombreParticipants") && soln.get("nombreParticipants").isLiteral() ? soln.getLiteral("nombreParticipants").getInt() + "" : "Nombre non disponible");
+                    jardin.put("typeParticipation", soln.contains("typeParticipation") && soln.get("typeParticipation").isLiteral() ? soln.getLiteral("typeParticipation").getString() : "Type non disponible");
+                    jardin.put("proprietaire", soln.contains("proprietaire") && soln.get("proprietaire").isLiteral() ? soln.getLiteral("proprietaire").getString() : "Propriétaire non disponible");
 
-                jardins.add(jardin);
+                    // Handle the date creation separately
+                    if (soln.contains("dateCreation") && soln.get("dateCreation").isLiteral()) {
+                        String dateCreation = soln.getLiteral("dateCreation").getString();
+                        // If the date is valid, we can store it, else return a default message
+                        if (isValidDate(dateCreation)) {
+                            jardin.put("dateCreation", dateCreation);
+                        } else {
+                            jardin.put("dateCreation", "Date non disponible");
+                        }
+                    } else {
+                        jardin.put("dateCreation", "Date non disponible");
+                    }
+
+                    jardins.add(jardin);
+                } catch (Exception e) {
+                    System.err.println("Error processing jardin: " + e.getMessage());
+                }
             }
         } catch (Exception e) {
             System.err.println("Error executing SPARQL query: " + e.getMessage());
@@ -280,6 +332,18 @@ public class SparqlUtils {
         return jardins;
     }
 
+    // Helper method to validate date format (if needed)
+    private boolean isValidDate(String dateStr) {
+        try {
+            // Try to parse the date (use an appropriate date format here)
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd"); // Example format
+            format.setLenient(false);
+            format.parse(dateStr);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
 
 
 
@@ -293,7 +357,6 @@ public class SparqlUtils {
         jenaEngine.saveModelToFile();
         return true;
     }
-
 
 
 
@@ -396,12 +459,11 @@ public class SparqlUtils {
 
         String queryStr = String.format(
                 "PREFIX agr: <%s> " +
-                        "SELECT ?nom ?localisation ?superficie ?plantes ?responsable ?nombreParticipants ?typeParticipation ?proprietaire ?dateCreation WHERE { " +
+                        "SELECT ?nom ?localisation ?superficie ?responsable ?nombreParticipants ?typeParticipation ?proprietaire ?dateCreation WHERE { " +
                         "  <%s> a ?type ; " +
                         "         agr:nom ?nom ; " +
                         "         agr:localisation ?localisation ; " +
                         "         agr:superficie ?superficie ; " +
-                        "         agr:plantes ?plantes ; " +
                         "         agr:responsable ?responsable . " +
                         "  OPTIONAL { <%s> agr:nombreParticipants ?nombreParticipants . } " +
                         "  OPTIONAL { <%s> agr:typeParticipation ?typeParticipation . } " +
@@ -420,7 +482,6 @@ public class SparqlUtils {
                 jardin.put("nom", soln.contains("nom") ? soln.getLiteral("nom").getString() : "Nom non disponible");
                 jardin.put("localisation", soln.contains("localisation") ? soln.getLiteral("localisation").getString() : "Localisation non disponible");
                 jardin.put("superficie", soln.contains("superficie") ? soln.getLiteral("superficie").getDouble() + "" : "Superficie non disponible");
-                jardin.put("plantes", soln.contains("plantes") ? soln.getLiteral("plantes").getString() : "Plantes non disponible");
                 jardin.put("responsable", soln.contains("responsable") ? soln.getLiteral("responsable").getString() : "Responsable non disponible");
 
                 // Check for optional attributes

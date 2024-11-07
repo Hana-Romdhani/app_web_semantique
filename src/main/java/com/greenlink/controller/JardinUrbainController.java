@@ -22,28 +22,28 @@ public class JardinUrbainController {
     // Add JardinPartage
     @PostMapping("/addPartage")
     public String addJardinPartage(
+            @RequestParam(required = false) String id,
             @RequestParam String nom,
             @RequestParam String localisation,
             @RequestParam Double superficie,
-            @RequestParam List<String> plantes,
             @RequestParam String responsable,
             @RequestParam Integer nombreParticipants,
             @RequestParam String typeParticipation) {
-        sparqlUtils.addJardinPartage(nom, localisation, superficie, plantes, responsable, nombreParticipants, typeParticipation);
+        sparqlUtils.addJardinPartage(id,nom, localisation, superficie, responsable, nombreParticipants, typeParticipation);
         return "Shared garden added and saved to OWL file successfully!";
     }
 
     // Add JardinPrive
     @PostMapping("/addPrive")
     public String addJardinPrive(
+            @RequestParam(required = false) String id,
             @RequestParam String nom,
             @RequestParam String localisation,
             @RequestParam Double superficie,
-            @RequestParam List<String> plantes,
             @RequestParam String responsable,
             @RequestParam String proprietaire,
             @RequestParam String dateCreation) {
-        sparqlUtils.addJardinPrive(nom, localisation, superficie, plantes, responsable, proprietaire, dateCreation);
+        sparqlUtils.addJardinPrive(id,nom, localisation, superficie, responsable, proprietaire, dateCreation);
         return "Private garden added and saved to OWL file successfully!";
     }
 
