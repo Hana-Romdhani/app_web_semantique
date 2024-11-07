@@ -3,6 +3,10 @@ package com.greenlink.utils;
 
 import com.greenlink.config.JenaEngine;
 import org.apache.jena.query.*;
+import org.apache.jena.update.UpdateAction;
+import org.apache.jena.update.UpdateExecutionFactory;
+import org.apache.jena.update.UpdateFactory;
+import org.apache.jena.update.UpdateRequest;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -20,7 +24,7 @@ public class SparqlUtils {
     }
 
     // Method to add a ConseilEnAttente instance
-    public void addConseilEnAttente(String titre, String contenu, String dateSoumission) {
+   public void addConseilEnAttente(String titre, String contenu, String dateSoumission) {
         String idConseil = UUID.randomUUID().toString(); // Generate a unique identifier
 
         String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#date>", dateSoumission);
@@ -48,6 +52,8 @@ public class SparqlUtils {
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
+
+
     public void approuverConseil(String idConseil, String dateApprobation) {
         String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#date>", dateApprobation);
         String query = String.format(
@@ -69,6 +75,7 @@ public class SparqlUtils {
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
+
 
     public List<Map<String, String>> getConseilsEnAttente() {
         // Ensure AGRICULTURE_NAMESPACE is defined and populated
@@ -242,7 +249,7 @@ public class SparqlUtils {
     }
 
 
-    public void soumettreReponse(String idCommentaire, String contenuReponse, String auteur) {
+    /*public void soumettreReponse(String idCommentaire, String contenuReponse, String auteur) {
         // Generate a new response ID
         String idReponse = UUID.randomUUID().toString();
 
@@ -274,6 +281,148 @@ public class SparqlUtils {
         );
 
         // Execute the SPARQL update and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+    }*/
+
+
+
+    public void soumettreReponse(String idCommentaire, String contenuReponse, String auteur) {
+        // Generate a new response ID
+        String idReponse = UUID.randomUUID().toString();
+
+        // Get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        String dateReponse = now.format(formatter);
+
+        // Format the date for SPARQL
+        String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#dateTime>", dateReponse);
+
+        // Ensure no double # is included in the URI
+        String responseUri = AGRICULTURE_NAMESPACE + idReponse;  // Correct URI format without an additional #
+
+        // Build the SPARQL insert query with the response URI
+        String query = String.format(
+                "PREFIX agr: <%s> " +  // The AGRICULTURE_NAMESPACE
+                        "INSERT DATA { " +
+                        "  <%s> a agr:Reponse ; " +  // Type of the response (using the generated URI)
+                        "             agr:contenuReponse \"%s\" ; " +  // Content of the response
+                        "             agr:dateReponse %s ; " +  // Date of the response
+                        "             agr:auteurReponse \"%s\" ; " +  // Author of the response
+                        "             agr:idReponse \"%s\" . " +  // ID of the response
+                        "  <%s> agr:aReponse <%s> . " +  // Relationship to the comment
+                        "}",
+                AGRICULTURE_NAMESPACE,    // %s for AGRICULTURE_NAMESPACE
+                responseUri,              // %s for response URI
+                contenuReponse,           // %s for response content
+                formattedDate,            // %s for date of response
+                auteur,                   // %s for author of response
+                idReponse,                // %s for response ID
+                idCommentaire,            // %s for the comment ID
+                responseUri               // %s for response URI
+        );
+
+        // Execute the SPARQL update and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+    }
+
+
+    public List<Map<String, String>> getReponsesByCommentaire(String idCommantaire) {
+        String selectQuery = String.format(
+                "PREFIX agr: <%s> " +
+                        "SELECT ?contenuReponse ?dateReponse ?auteurReponse ?idReponse " +
+                        "WHERE { " +
+                        "  <file:///G:/websemantique/%s> agr:aReponse ?reponse . " +
+                        "  ?reponse agr:contenuReponse ?contenuReponse ; " +
+                        "           agr:dateReponse ?dateReponse ; " +
+                        "           agr:auteurReponse ?auteurReponse ; " +
+                        "           agr:idReponse ?idReponse . " +
+                        "} ",
+                AGRICULTURE_NAMESPACE, idCommantaire
+        );
+
+        Query query = QueryFactory.create(selectQuery);
+        QueryExecution qexec = QueryExecutionFactory.create(query, jenaEngine.getModel());
+        ResultSet results = qexec.execSelect();
+
+        List<Map<String, String>> responseList = new ArrayList<>();
+
+        while (results.hasNext()) {
+            QuerySolution sol = results.nextSolution();
+            Map<String, String> responseMap = new HashMap<>();
+
+            responseMap.put("contenuReponse", sol.getLiteral("contenuReponse").getString());
+            responseMap.put("dateReponse", sol.getLiteral("dateReponse").getString());
+            responseMap.put("auteurReponse", sol.getLiteral("auteurReponse").getString());
+            responseMap.put("idReponse", sol.getLiteral("idReponse").getString());
+
+            responseList.add(responseMap);
+        }
+
+        qexec.close();
+
+        return responseList;
+    }
+
+
+
+    public void updateReponse(String contenuReponse, String auteur) {
+        // Get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        String dateReponse = now.format(formatter);
+
+        // Format the date for SPARQL
+        String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#dateTime>", dateReponse);
+
+        // Build the SPARQL update query to modify the existing response based on the author
+        String query = String.format(
+                "PREFIX agr: <%s> " +  // The AGRICULTURE_NAMESPACE
+                        "DELETE { " +
+                        "  ?response agr:contenuReponse ?oldContenuReponse ; " +  // Delete the old content of the response
+                        "             agr:dateReponse ?oldDateReponse ; " +  // Delete the old date of the response
+                        "             agr:auteurReponse ?oldAuteurReponse . " +  // Delete the old author of the response
+                        "} " +
+                        "INSERT { " +
+                        "  ?response agr:contenuReponse \"%s\" ; " +  // Insert the new content of the response
+                        "             agr:dateReponse %s ; " +  // Insert the new date of the response
+                        "             agr:auteurReponse \"%s\" . " +  // Insert the new author of the response
+                        "} " +
+                        "WHERE { " +
+                        "  ?response a agr:Reponse ; " +  // Identify the response by its type
+                        "             agr:auteurReponse \"%s\" . " +  // Match the response by author
+                        "} ",
+                AGRICULTURE_NAMESPACE,    // %s for AGRICULTURE_NAMESPACE
+                contenuReponse,           // %s for response content
+                formattedDate,            // %s for date of response
+                auteur,                   // %s for author of response
+                auteur                    // %s for matching author in WHERE clause
+        );
+
+        // Execute the SPARQL update and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+    }
+
+    public void deleteResponse(String idResponse) {
+        // Build the SPARQL query to delete all triples associated with the response based on idResponse
+        String query = String.format(
+                "PREFIX agr: <%s> " +  // The AGRICULTURE_NAMESPACE
+                        "DELETE { " +
+                        "  ?response ?predicate ?object . " +  // Delete all properties associated with the response
+                        "} " +
+                        "WHERE { " +
+                        "  ?response a agr:Reponse ; " +       // Identify the response by its type
+                        "             agr:idResponse \"%s\" ; " +  // Match the response by idResponse
+                        "             ?predicate ?object . " +     // Select all properties and objects linked to the response
+                        "} ",
+                AGRICULTURE_NAMESPACE,  // %s for AGRICULTURE_NAMESPACE
+                idResponse              // %s for id of the response
+        );
+
+        // Execute the SPARQL update to delete the response
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }

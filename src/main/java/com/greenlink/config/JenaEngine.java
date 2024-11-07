@@ -114,4 +114,17 @@ public class JenaEngine {
 
         return resultsList;
     }
+    // Method to execute an ASK query
+    public boolean executeAskQuery(String query) {
+        // Create a QueryExecution instance using the provided SPARQL query string
+        QueryExecution queryExecution = QueryExecutionFactory.create(query, model);
+
+        try {
+            // Execute the ASK query and return the result (true or false)
+            return queryExecution.execAsk();
+        } finally {
+            queryExecution.close(); // Always close the query execution
+        }
+    }
+
 }

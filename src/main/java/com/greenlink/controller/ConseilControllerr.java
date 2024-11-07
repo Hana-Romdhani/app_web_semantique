@@ -4,6 +4,7 @@ package com.greenlink.controller;
 
 import com.greenlink.utils.SparqlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,13 +75,53 @@ public class ConseilControllerr {
         // Call the method to get comments for the given idConseil
         return sparqlUtils.getCommentairesForConseil(idConseil);
     }
+
     @PostMapping("/reply")
-    public String submitReply(
-            @RequestParam String idCommentaire,
-            @RequestParam String contenuReponse,
-            @RequestParam String auteur) {
-        sparqlUtils.soumettreReponse(idCommentaire, contenuReponse,  auteur);
+    public String submitReply(@RequestBody Map<String, String> requestBody) {
+        String idCommentaire = requestBody.get("idCommentaire");
+        String contenuReponse = requestBody.get("contenuReponse");
+        String auteur = requestBody.get("auteur");
+
+        sparqlUtils.soumettreReponse(idCommentaire, contenuReponse, auteur);
         return "Reply added successfully!";
     }
+    @GetMapping ("/getReplies/{idCommantaire}")
+    public List<Map<String, String>> getReplies(@PathVariable String idCommantaire) {
+        return sparqlUtils.getReponsesByCommentaire(idCommantaire); // Return the list of responses
+    }
+    @PutMapping("/update")
+    public ResponseEntity<String> updateReponse(
+            @RequestParam String contenuReponse,  // New content of the response
+            @RequestParam String auteur) {        // Author of the response
+
+        try {
+            // Call the service method to update the response
+            sparqlUtils.updateReponse(contenuReponse, auteur);
+
+            // Return a success message
+            return ResponseEntity.ok("Response updated successfully.");
+        } catch (Exception e) {
+            // Return an error message in case of failure
+            return ResponseEntity.status(500).body("Failed to update response: " + e.getMessage());
+        }
+    }
+    @DeleteMapping("reponsedelete/{idResponse}")
+    public ResponseEntity<String> deleteResponse(@PathVariable String idResponse) {
+        try {
+            // Call the service method to delete the response by idResponse
+            sparqlUtils.deleteResponse(idResponse);
+
+            // Return success response
+            return ResponseEntity.ok("Response deleted successfully.");
+        } catch (Exception e) {
+            // Log the error for debugging
+            e.printStackTrace();
+
+            // Return error response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while deleting the response.");
+        }
+    }
+
 
 }
