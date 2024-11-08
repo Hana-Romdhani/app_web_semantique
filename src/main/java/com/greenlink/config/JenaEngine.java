@@ -126,5 +126,41 @@ public class JenaEngine {
             queryExecution.close(); // Always close the query execution
         }
     }
+    public ResultSet executeQuery(String queryString) {
+        // Create a query execution object
+        Query query = QueryFactory.create(queryString);
+        try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+            // Execute the query and return the results
+            return qexec.execSelect();
+        } catch (Exception e) {
+            System.out.println("Error executing query: " + e.getMessage());
+            return null; // Return null or handle error appropriately
+        }
+    }
+    public List<Map<String, String>> executeSelectMultiple(Model model, String query, String[] variableNames) {
+        List<Map<String, String>> results = new ArrayList<>();
+
+        try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+            ResultSet resultSet = qexec.execSelect();
+            while (resultSet.hasNext()) {
+                QuerySolution soln = resultSet.nextSolution();
+                Map<String, String> resultMap = new HashMap<>();
+
+                for (String varName : variableNames) {
+                    if (soln.get(varName) != null) {
+                        resultMap.put(varName, soln.get(varName).toString());
+                    } else {
+                        resultMap.put(varName, "N/A"); // Or handle null appropriately
+                    }
+                }
+                results.add(resultMap);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the error
+        }
+
+        return results;
+    }
+
 
 }
