@@ -887,25 +887,25 @@
     <agri:localisation>Downtown</agri:localisation>
     <agri:nom>donyyyyyyyyyy</agri:nom>
   </rdf:Description>
-  <agri:JardinPrive rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#JardinPrive_418d4365-1ad7-4f0d-ab37-f755f649948f">
-    <agri:nom>mljklkjkhjg</agri:nom>
-    <agri:localisation>KLJIHUJGFH</agri:localisation>
+  <agri:JardinPartage rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#JardinPartage_28fadf54-4f14-454f-89bc-46e544355b92">
+    <agri:typeParticipation>partageetestttttt</agri:typeParticipation>
+    <agri:nombreParticipants rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >77</agri:nombreParticipants>
+    <agri:responsable>partageetestttttt</agri:responsable>
     <agri:superficie rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
-    >777.0</agri:superficie>
-    <agri:responsable>LKJHGF</agri:responsable>
-    <agri:proprietaire>LKJHKGJ</agri:proprietaire>
-    <agri:dateCreation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-20</agri:dateCreation>
-  </agri:JardinPrive>
+    >666.0</agri:superficie>
+    <agri:localisation>partageetestttttt</agri:localisation>
+    <agri:nom>partageetestttttt</agri:nom>
+  </agri:JardinPartage>
   <agri:JardinPrive rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#JardinPrive_58079ec4-f0dc-4ac2-9df1-73c3f28e162c">
     <agri:dateCreation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-29</agri:dateCreation>
-    <agri:proprietaire>LKJKH</agri:proprietaire>
-    <agri:responsable>JIHU</agri:responsable>
+    >2024-09-09</agri:dateCreation>
+    <agri:proprietaire>doniaasemm</agri:proprietaire>
+    <agri:responsable>doniaasemm</agri:responsable>
     <agri:superficie rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
-    >77.0</agri:superficie>
-    <agri:localisation>;lkjlh</agri:localisation>
-    <agri:nom>lkopzsxhbgv</agri:nom>
+    >66.0</agri:superficie>
+    <agri:localisation>doniaasemm</agri:localisation>
+    <agri:nom>doniajlidi</agri:nom>
   </agri:JardinPrive>
   <rdf:Description>
     <rdf:first rdf:resource="file:///C:/Users/donia/OneDrive/Bureau/Nouveau%20dossier%20%283%29/app_web_semantique/hu"/>
@@ -1195,6 +1195,16 @@
     <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
     <rdf:first rdf:resource="file:///C:/Users/donia/OneDrive/Bureau/Nouveau%20dossier%20%283%29/app_web_semantique/FOO"/>
   </rdf:Description>
+  <agri:JardinPrive rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#JardinPrive_1c0a6301-5128-4e84-8265-a7a8b75251b8">
+    <agri:dateCreation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-21</agri:dateCreation>
+    <agri:proprietaire>LKJHG</agri:proprietaire>
+    <agri:responsable>NBVGCF</agri:responsable>
+    <agri:superficie rdf:datatype="http://www.w3.org/2001/XMLSchema#double"
+    >89765.0</agri:superficie>
+    <agri:localisation>MLKMJLH/GFUDJY</agri:localisation>
+    <agri:nom>?LKNBJHJVGHCFXD</agri:nom>
+  </agri:JardinPrive>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Partage_de_Ressources_Naturelles">
     <agri:datePartageRessource>2024-09-20</agri:datePartageRessource>
     <agri:nomRessource>Réservoir d'eau</agri:nomRessource>
