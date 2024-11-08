@@ -25,7 +25,6 @@ public class RessourceController {
     private static final Logger logger = LoggerFactory.getLogger(RessourceController.class);
 
     // ---------------- CRUD for Generic Ressource and Subclasses ----------------
-
     // Create a new resource, specifying the type for subclass differentiation
     @PostMapping("/add")
 
