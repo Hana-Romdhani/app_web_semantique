@@ -122,10 +122,10 @@ public class ConseilControllerr {
                     .body("An error occurred while deleting the response.");
         }
     }*/
-    @DeleteMapping("/Conseildelete")
-    public String deletePlante(@RequestParam String idConseil) {
-        sparqlUtils.deleteAttente(idConseil);
-        return "Conseil with idConseil: " + idConseil + " deleted successfully";
+    @DeleteMapping("/Conseildelete/{contenu}")
+    public String deletePlante(@PathVariable String contenu) {
+        sparqlUtils.deleteContenuConseil(contenu);
+        return "Conseil with idConseil: " + contenu + " deleted successfully";
     }
     @GetMapping("/comments/by-type")
     public List<Map<String, String>> getCommentairesByType(@RequestParam boolean isVisiteur) {

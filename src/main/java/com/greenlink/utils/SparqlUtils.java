@@ -52,6 +52,49 @@ public class SparqlUtils {
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
+    public void deleteContenuConseil(String contenuConseil) {
+        // Build the SPARQL DELETE query to remove any instance of 'contenuConseil' with the specified value
+        String query = String.format(
+                "PREFIX agr: <%s> " +
+                        "DELETE WHERE { " +
+                        "  ?s agr:contenuConseil \"%s\" . " +  // Delete any resource with the specified 'contenuConseil' value
+                        "} ",
+                AGRICULTURE_NAMESPACE,
+                contenuConseil
+        );
+
+        // Log the query for debugging purposes
+        System.out.println("Executing SPARQL DELETE query for contenuConseil value: " + query);
+
+        // Execute the SPARQL update to delete the specific property value
+        try {
+            jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+            System.out.println("Delete operation for contenuConseil executed.");
+        } catch (Exception e) {
+            System.err.println("Error executing DELETE query for contenuConseil: " + e.getMessage());
+        }
+
+        // Verify if any 'contenuConseil' with the specified value still exists
+        String checkQuery = String.format(
+                "ASK { ?s agr:contenuConseil \"%s\" }",
+                contenuConseil
+        );
+
+        try {
+            boolean exists = jenaEngine.executeAskQuery(checkQuery);
+            if (exists) {
+                System.out.println("contenuConseil still exists after DELETE operation.");
+            } else {
+                System.out.println("contenuConseil successfully deleted.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error executing ASK query for contenuConseil: " + e.getMessage());
+        }
+
+        // Save the updated model to file
+        jenaEngine.saveModelToFile();
+    }
+
     public void deleteAttente(String idConseil) {
         // Construct the URI for the Conseil using its ID
         String URI = AGRICULTURE_NAMESPACE + idConseil;
@@ -72,15 +115,31 @@ public class SparqlUtils {
         // Execute the SPARQL update to delete the data from the model
         try {
             jenaEngine.executeUpdate(jenaEngine.getModel(), query);
-            System.out.println("Delete operation successful.");
+            System.out.println("Delete operation executed.");
         } catch (Exception e) {
             System.err.println("Error executing DELETE query: " + e.getMessage());
+        }
+
+        // Verify if the resource still exists after the delete operation
+        String checkQuery = String.format(
+                "ASK { <%s> ?p ?o }",
+                URI
+        );
+
+        try {
+            boolean exists = jenaEngine.executeAskQuery( checkQuery);
+            if (exists) {
+                System.out.println("Resource still exists after DELETE operation.");
+            } else {
+                System.out.println("Resource successfully deleted.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error executing ASK query: " + e.getMessage());
         }
 
         // Save the updated model to file
         jenaEngine.saveModelToFile();
     }
-
 
     public void approuverConseil(String idConseil, String dateApprobation) {
         String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#date>", dateApprobation);
@@ -331,42 +390,6 @@ public class SparqlUtils {
     }
 
 
-    /*public void soumettreReponse(String idCommentaire, String contenuReponse, String auteur) {
-        // Generate a new response ID
-        String idReponse = UUID.randomUUID().toString();
-
-        // Get the current date and time
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        String dateReponse = now.format(formatter);
-
-        // Format the date for SPARQL
-        String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#dateTime>", dateReponse);
-
-        // Build the SPARQL insert query
-        String query = String.format(
-                "PREFIX agr: <%s> " +  // The AGRICULTURE_NAMESPACE
-                        "INSERT DATA { " +
-                        "  _:reponse a agr:Reponse ; " +  // Type of the response
-                        "             agr:contenuReponse \"%s\" ; " +  // Content of the response
-                        "             agr:dateReponse %s ; " +  // Date of the response
-                        "             agr:auteurReponse \"%s\" ; " +  // Author of the response
-                        "             agr:idReponse \"%s\" . " +  // ID of the response
-                        "  <%s> agr:aReponse _:reponse . " +  // Relationship to the comment
-                        "}",
-                AGRICULTURE_NAMESPACE,    // %s for AGRICULTURE_NAMESPACE
-                contenuReponse,           // %s for response content
-                formattedDate,            // %s for date of response
-                auteur,                   // %s for author of response
-                idReponse,                // %s for response ID
-                idCommentaire             // %s for the comment ID
-        );
-
-        // Execute the SPARQL update and save the model
-        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
-        jenaEngine.saveModelToFile();
-    }*/
-
 
 
     public void soumettreReponse(String idCommentaire, String contenuReponse, String auteur) {
@@ -488,26 +511,7 @@ public class SparqlUtils {
         jenaEngine.saveModelToFile();
     }
 
- /*   public void deleteResponse(String idResponse) {
-        // Build the SPARQL query to delete all triples associated with the response based on idResponse
-        String query = String.format(
-                "PREFIX agr: <%s> " +  // The AGRICULTURE_NAMESPACE
-                        "DELETE { " +
-                        "  ?response ?predicate ?object . " +  // Delete all properties associated with the response
-                        "} " +
-                        "WHERE { " +
-                        "  ?response a agr:Reponse ; " +       // Identify the response by its type
-                        "             agr:idResponse \"%s\" ; " +  // Match the response by idResponse
-                        "             ?predicate ?object . " +     // Select all properties and objects linked to the response
-                        "} ",
-                AGRICULTURE_NAMESPACE,  // %s for AGRICULTURE_NAMESPACE
-                idResponse              // %s for id of the response
-        );
 
-        // Execute the SPARQL update to delete the response
-        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
-        jenaEngine.saveModelToFile();
-    }*/
 
 
 
