@@ -956,6 +956,15 @@
   <rdf:Description rdf:about="file:///G:/websemantique/7687c7a8-bca0-4a34-87dc-c80e6d2f0f9c">
     <agri:aCommentaire>
       <agri:CommentaireJardinier>
+        <agri:idCommentaire>d5f2f7dc-f313-4eff-bbca-b68aa0e0ac20</agri:idCommentaire>
+        <agri:auteurCommentaire>sss</agri:auteurCommentaire>
+        <agri:dateCommentaire rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+        >2024-11-08T03:50:18</agri:dateCommentaire>
+        <agri:contenuCommentaire>sss</agri:contenuCommentaire>
+      </agri:CommentaireJardinier>
+    </agri:aCommentaire>
+    <agri:aCommentaire>
+      <agri:CommentaireJardinier>
         <agri:contenuCommentaire>commentaire</agri:contenuCommentaire>
         <agri:dateCommentaire rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
         >2024-11-08T03:14:57</agri:dateCommentaire>
@@ -1023,6 +1032,17 @@
     <agri:DatedebutPartageMateriel>2024-10-01</agri:DatedebutPartageMateriel>
     <agri:DateFinPartageMateriel>2024-10-15</agri:DateFinPartageMateriel>
   </owl:NamedIndividual>
+  <rdf:Description rdf:about="file:///G:/websemantique/d5f2f7dc-f313-4eff-bbca-b68aa0e0ac20">
+    <agri:aReponse>
+      <agri:Reponse rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#7653684b-29ad-473f-9734-9796e9e5b1a4">
+        <agri:idReponse>7653684b-29ad-473f-9734-9796e9e5b1a4</agri:idReponse>
+        <agri:auteurReponse>sss</agri:auteurReponse>
+        <agri:dateReponse rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+        >2024-11-08T03:50:27</agri:dateReponse>
+        <agri:contenuReponse>ssss</agri:contenuReponse>
+      </agri:Reponse>
+    </agri:aReponse>
+  </rdf:Description>
   <rdf:Description rdf:about="file:///G:/websemantique/f4c7a596-8724-40f4-be21-561ffc3c2f84">
     <agri:aReponse>
       <agri:Reponse rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#bfb39b50-4b53-4247-adc6-22b3bf786c1e">
