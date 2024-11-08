@@ -66,3 +66,10 @@ docker-compose.override.yml
 src/main/resources/data/tdb1/OSP.dat
 src/main/resources/data/tdb1/POS.dat
 src/main/resources/data/tdb1/SPO.dat
+
+src/main/resources/data/tdb1/journal.jrnl
+
+
+# Ignore ontology and data files in resources
+src/main/resources/data/
+src/main/resources/owl/
