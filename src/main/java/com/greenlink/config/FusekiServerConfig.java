@@ -8,7 +8,7 @@ import org.apache.jena.fuseki.main.FusekiServer;
 
 public class FusekiServerConfig {
     private static final String DATASET_PATH = "src/main/resources/data/tdb1";
-    private static final String OWL_FILE_PATH = "src/main/resources/owl/greenlink.owl";
+    private static final String OWL_FILE_PATH = "src/main/resources/owl/greenlinkversion2.owl";
     private static final String DATASET_NAME = "/greenlink";
     private static FusekiServer server;
 
