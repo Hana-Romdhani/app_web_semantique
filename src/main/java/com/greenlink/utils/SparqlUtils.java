@@ -1052,4 +1052,152 @@ public class SparqlUtils {
         jenaEngine.saveModelToFile();
     }
 
+    public String updateEvent(String id, String title, String description, String location, String date, String classType) {
+
+        // Construct the full URI for the event using the namespace and id
+        String eventURI = AGRICULTURE_NAMESPACE + id;
+
+        // SPARQL query to delete the old values and insert the new ones
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "DELETE { " +
+                        "  <%s> agri:titreEvenement ?oldTitle ; " +
+                        "       agri:descriptionEvenement ?oldDescription ; " +
+                        "       agri:lieuEvenement ?oldLocation ; " +
+                        "       agri:dateEvenement ?oldDate ; " +
+                        "       a ?oldClassType . " +
+                        "} " +
+                        "INSERT { " +
+                        "  <%s> a agri:%s ; " +
+                        "       agri:titreEvenement \"%s\" ; " +
+                        "       agri:descriptionEvenement \"%s\" ; " +
+                        "       agri:lieuEvenement \"%s\" ; " +
+                        "       agri:dateEvenement \"%s\" . " +
+                        "} " +
+                        "WHERE { " +
+                        "  OPTIONAL { <%s> agri:titreEvenement ?oldTitle } " +
+                        "  OPTIONAL { <%s> agri:descriptionEvenement ?oldDescription } " +
+                        "  OPTIONAL { <%s> agri:lieuEvenement ?oldLocation } " +
+                        "  OPTIONAL { <%s> agri:dateEvenement ?oldDate } " +
+                        "  OPTIONAL { <%s> a ?oldClassType } " +
+                        "}",
+                AGRICULTURE_NAMESPACE, eventURI,
+                eventURI, classType, title, description, location, date,
+                eventURI, eventURI, eventURI, eventURI, eventURI
+        );
+
+        // Execute the SPARQL update query and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+
+        return id; // Return the updated event ID
+    }
+
+    public String updateClassification(String id, String name, String classType) {
+        // Construct the full URI for the event using the namespace and id
+        String eventURI = AGRICULTURE_NAMESPACE + id;
+
+        // SPARQL query to delete the old values and insert the new ones
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "DELETE { " +
+                        "  <%s> agri:nomClassificationEvenement ?oldName ; " +
+                        "       a ?oldClassType . " +
+                        "} " +
+                        "INSERT { " +
+                        "  <%s> a agri:%s ; " +
+                        "       agri:nomClassificationEvenement \"%s\" ; " +
+                        "} " +
+                        "WHERE { " +
+                        "  OPTIONAL { <%s> agri:nomClassificationEvenement ?oldName } " +
+                        "  OPTIONAL { <%s> a ?oldClassType } " +
+                        "}",
+                AGRICULTURE_NAMESPACE, eventURI,
+                eventURI, classType, name,
+                eventURI, eventURI, eventURI, eventURI, eventURI
+        );
+
+        // Execute the SPARQL update query and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+
+        return id; // Return the updated event ID
+
+    }
+
+    public void deleteClassification(String id) {
+        String eventURI = AGRICULTURE_NAMESPACE + id;
+
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "DELETE WHERE { " +
+                        "  <%s> ?p ?o . " + // Delete all properties associated with the event URI
+                        "}",
+                AGRICULTURE_NAMESPACE,
+                eventURI
+        );
+
+        // Execute the SPARQL update to delete the event and save the model
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+    }
+
+    public String addClassification(String id, String name, String classType) {
+        if (id == null || id.isEmpty()) {
+            id = "Event_" + UUID.randomUUID().toString(); // Generates a unique ID
+        }
+        String eventURI = AGRICULTURE_NAMESPACE + id;
+
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "INSERT DATA { " +
+                        "  <%s> a agri:%s ; " +
+                        "       agri:idClassification \"%s\" ; " +
+                        "       agri:nomClassificationEvenement \"%s\" ; " +
+                        "}",
+                AGRICULTURE_NAMESPACE,
+                eventURI,
+                classType,
+                id,
+                name
+
+        );
+
+        jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+        jenaEngine.saveModelToFile();
+
+        return id; // Return the generated or provided ID
+    }
+
+    public List<Map<String, String>> getAllClassifications() {
+
+        String query = String.format(
+                "PREFIX agri: <%s> " +
+                        "SELECT ?classificationevenement ?classType ?id ?name " +
+                        "WHERE { " +
+                        "    ?classification a ?classType ; " +  // Retrieve the specific class type of the event
+                        "           agri:idClassification ?id ; " +
+                        "           agri:nomClassificationEvenement ?name ; " +
+
+                        "    FILTER(?classType IN (agri:AtelierPratique, agri:Conference)) " +
+                        "}",
+                AGRICULTURE_NAMESPACE
+        );
+
+        List<Map<String, String>> events = new ArrayList<>();
+        try (QueryExecution qexec = QueryExecutionFactory.create(QueryFactory.create(query), jenaEngine.getModel())) {
+            ResultSet results = qexec.execSelect();
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                Map<String, String> eventData = new HashMap<>();
+                eventData.put("classType", soln.getResource("classType").getLocalName()); // Capture the class type name
+                eventData.put("id", soln.getLiteral("id").getString());
+                eventData.put("name", soln.getLiteral("name").getString());
+
+                events.add(eventData);
+            }
+        }
+        System.out.println("Retrieved events: " + events); // Log the output to verify
+        return events;
+    }
 }
