@@ -3,10 +3,7 @@ package com.greenlink.utils;
 
 import com.greenlink.config.JenaEngine;
 import org.apache.jena.query.*;
-import org.apache.jena.update.UpdateAction;
-import org.apache.jena.update.UpdateExecutionFactory;
-import org.apache.jena.update.UpdateFactory;
-import org.apache.jena.update.UpdateRequest;
+
 
 import org.springframework.stereotype.Component;
 
