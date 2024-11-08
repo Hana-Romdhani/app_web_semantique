@@ -1,12 +1,18 @@
 package com.greenlink.controller;
 
 import com.greenlink.utils.SparqlUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
+@CrossOrigin(origins = "http://localhost:8000") // Frontend Laravel
 @RequestMapping("/api/ontology/ressources")
 public class RessourceController {
 
@@ -16,13 +22,14 @@ public class RessourceController {
     public RessourceController(SparqlUtils sparqlUtils) {
         this.sparqlUtils = sparqlUtils;
     }
+    private static final Logger logger = LoggerFactory.getLogger(RessourceController.class);
 
     // ---------------- CRUD for Generic Ressource and Subclasses ----------------
 
     // Create a new resource, specifying the type for subclass differentiation
-
-
     @PostMapping("/add")
+
+
     public String addRessource(
             @RequestParam String nom,
             @RequestParam String description,
@@ -37,6 +44,22 @@ public class RessourceController {
             @RequestParam(required = false) String format,
             @RequestParam(required = false) String niveauCompetence) {
 
+        // Log les données reçues pour déboguer
+        logger.info("Données reçues dans la requête POST :");
+        logger.info("nom: {}", nom);
+        logger.info("description: {}", description);
+        logger.info("quantite: {}", quantite);
+        logger.info("dateAjout: {}", dateAjout);
+        logger.info("type: {}", type);
+        logger.info("typeMateriel: {}", typeMateriel);
+        logger.info("etat: {}", etat);
+        logger.info("disponibilite: {}", disponibilite);
+        logger.info("source: {}", source);
+        logger.info("titre: {}", titre);
+        logger.info("format: {}", format);
+        logger.info("niveauCompetence: {}", niveauCompetence);
+
+        // Traitement en fonction du type
         switch (type.toLowerCase()) {
             case "materielle":
                 sparqlUtils.addRessourceMaterielle(nom, description, quantite, dateAjout, typeMateriel, etat, disponibilite);
@@ -45,14 +68,36 @@ public class RessourceController {
                 sparqlUtils.addRessourceNaturelle(nom, description, quantite, dateAjout, source);
                 return "Ressource Naturelle added successfully!";
             case "educative":
-                sparqlUtils.addRessourceEducative(nom, description, titre, format, niveauCompetence,quantite,dateAjout);
+                sparqlUtils.addRessourceEducative(nom, description, titre, format, niveauCompetence, quantite, dateAjout);
                 return "Ressource Éducative added successfully!";
             default:
                 return "Invalid resource type!";
         }
     }
 
+
     // Retrieve all resources
+    @GetMapping("/{id}/{type}")
+    public ResponseEntity<Map<String, String>> getRessourceByIdAndType(
+            @PathVariable String id,
+            @PathVariable String type) {
+
+        // Appel du service pour obtenir la ressource avec l'ID et le type spécifiés
+        Map<String, String> ressource = sparqlUtils.getRessourceByIdAndType(id, type);
+
+        // Vérification si une erreur est présente dans la réponse
+        if (ressource.containsKey("error")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ressource);
+        }
+
+        // Retourne la ressource si elle a été trouvée
+        return ResponseEntity.ok(ressource);
+    }
+    @GetMapping("/list")
+    @ResponseBody
+    public List<Map<String, String>> jardins() {
+        return sparqlUtils.getAllRess();
+    }
     @GetMapping("/all")
     public String getAllRessources() {
         try {
@@ -85,7 +130,7 @@ public class RessourceController {
     }
 
     // Update a resource by type
-    @PutMapping("/edit/{type}/{id}")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<String> editRessource(
             @PathVariable String id,
             @PathVariable String type,
