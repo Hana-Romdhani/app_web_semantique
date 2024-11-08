@@ -52,6 +52,34 @@ public class SparqlUtils {
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
+    public void deleteAttente(String idConseil) {
+        // Construct the URI for the Conseil using its ID
+        String URI = AGRICULTURE_NAMESPACE + idConseil;
+
+        // Build the SPARQL DELETE query to remove the entire resource
+        String query = String.format(
+                "PREFIX agr: <%s> " +
+                        "DELETE WHERE { " +
+                        "  <%s> ?p ?o . " +  // Delete all properties related to the resource
+                        "} ",
+                AGRICULTURE_NAMESPACE,
+                URI
+        );
+
+        // Log the query for debugging purposes
+        System.out.println("Executing SPARQL DELETE query: " + query);
+
+        // Execute the SPARQL update to delete the data from the model
+        try {
+            jenaEngine.executeUpdate(jenaEngine.getModel(), query);
+            System.out.println("Delete operation successful.");
+        } catch (Exception e) {
+            System.err.println("Error executing DELETE query: " + e.getMessage());
+        }
+
+        // Save the updated model to file
+        jenaEngine.saveModelToFile();
+    }
 
 
     public void approuverConseil(String idConseil, String dateApprobation) {
@@ -206,6 +234,60 @@ public class SparqlUtils {
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
     }
+
+
+
+
+
+    public List<Map<String, String>> getCommentairesByType(boolean isVisiteur) {
+        // Determine the type of comment based on the visitor flag
+        String typeCommentaire = isVisiteur ? "CommentaireJardinier" : "CommentaireVisiteur";
+
+        // Build the SPARQL query to select comments by type
+        String queryStr = String.format(
+                "PREFIX agr: <%s> " +
+                        "SELECT ?idCommentaire ?contenuCommentaire ?dateCommentaire ?auteurCommentaire " +
+                        "WHERE { " +
+                        "  ?commentaire a agr:%s ; " +  // Match comments by type
+                        "               agr:idCommentaire ?idCommentaire ; " +  // Select the comment ID
+                        "               agr:contenuCommentaire ?contenuCommentaire ; " +  // Select the comment content
+                        "               agr:dateCommentaire ?dateCommentaire ; " +  // Select the comment date
+                        "               agr:auteurCommentaire ?auteurCommentaire . " +  // Select the comment author
+                        "} ",
+                AGRICULTURE_NAMESPACE,
+                typeCommentaire
+        );
+
+        // Execute the query
+        Query query = QueryFactory.create(queryStr);
+        QueryExecution qexec = QueryExecutionFactory.create(query, jenaEngine.getModel());
+        ResultSet results = qexec.execSelect();
+
+        // Create a new list to hold the filtered results
+        List<Map<String, String>> filteredResults = new ArrayList<>();
+
+        // Collect results into a list of maps
+        while (results.hasNext()) {
+            QuerySolution sol = results.nextSolution();
+            Map<String, String> commentMap = new HashMap<>();
+
+            // Add the result fields to the map
+            commentMap.put("idCommentaire", sol.getLiteral("idCommentaire").getString());
+            commentMap.put("contenuCommentaire", sol.getLiteral("contenuCommentaire").getString());
+            commentMap.put("dateCommentaire", sol.getLiteral("dateCommentaire").getString());
+            commentMap.put("auteurCommentaire", sol.getLiteral("auteurCommentaire").getString());
+
+            // Add the comment map to the filtered results
+            filteredResults.add(commentMap);
+        }
+
+        // Return the list of filtered comments as maps
+        return filteredResults;
+    }
+
+
+
+
     public List<Map<String, String>> getCommentairesForConseil(String idConseil) {
         // SPARQL query to get the comments associated with the given idConseil
         String queryStr = String.format(
@@ -406,7 +488,7 @@ public class SparqlUtils {
         jenaEngine.saveModelToFile();
     }
 
-    public void deleteResponse(String idResponse) {
+ /*   public void deleteResponse(String idResponse) {
         // Build the SPARQL query to delete all triples associated with the response based on idResponse
         String query = String.format(
                 "PREFIX agr: <%s> " +  // The AGRICULTURE_NAMESPACE
@@ -425,7 +507,7 @@ public class SparqlUtils {
         // Execute the SPARQL update to delete the response
         jenaEngine.executeUpdate(jenaEngine.getModel(), query);
         jenaEngine.saveModelToFile();
-    }
+    }*/
 
 
 

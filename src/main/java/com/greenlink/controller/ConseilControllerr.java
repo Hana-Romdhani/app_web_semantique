@@ -105,7 +105,7 @@ public class ConseilControllerr {
             return ResponseEntity.status(500).body("Failed to update response: " + e.getMessage());
         }
     }
-    @DeleteMapping("reponsedelete/{idResponse}")
+    /*@DeleteMapping("reponsedelete/{idResponse}")
     public ResponseEntity<String> deleteResponse(@PathVariable String idResponse) {
         try {
             // Call the service method to delete the response by idResponse
@@ -121,7 +121,15 @@ public class ConseilControllerr {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An error occurred while deleting the response.");
         }
+    }*/
+    @DeleteMapping("/Conseildelete")
+    public String deletePlante(@RequestParam String idConseil) {
+        sparqlUtils.deleteAttente(idConseil);
+        return "Conseil with idConseil: " + idConseil + " deleted successfully";
     }
-
+    @GetMapping("/comments/by-type")
+    public List<Map<String, String>> getCommentairesByType(@RequestParam boolean isVisiteur) {
+        return sparqlUtils.getCommentairesByType(isVisiteur);
+    }
 
 }

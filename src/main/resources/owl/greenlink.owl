@@ -716,6 +716,19 @@
     <rdfs:domain rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Conseil"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
   </owl:FunctionalProperty>
+  <agri:ConseilEnAttente>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024/01/38</agri:dateSoumission>
+    <agri:contenuConseil>hahahahahahahahahhahahahhaha</agri:contenuConseil>
+    <agri:titreConseil>blalalalalalalalallalala</agri:titreConseil>
+  </agri:ConseilEnAttente>
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Administrateur"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Jardinier"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Visiteur"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
   <rdf:Description rdf:about="file:///G:/websemantique/ba23758d-abf8-41b5-bfa7-0c2cc2cc8676">
     <agri:aReponse>
       <agri:Reponse rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#822b713a-becc-4e7a-92eb-694027c60f2a">
@@ -736,6 +749,15 @@
         >2024-11-07T21:22:09</agri:dateReponse>
         <agri:auteurReponse>soulaima</agri:auteurReponse>
         <agri:idReponse>877eb0bf-0580-48c5-9690-36b8186bc7b2</agri:idReponse>
+      </agri:Reponse>
+    </agri:aReponse>
+    <agri:aReponse>
+      <agri:Reponse rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#f37851bc-025f-479b-a52e-c379ceb1f839">
+        <agri:contenuReponse>toute</agri:contenuReponse>
+        <agri:dateReponse rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+        >2024-11-08T00:47:06</agri:dateReponse>
+        <agri:auteurReponse>hana</agri:auteurReponse>
+        <agri:idReponse>f37851bc-025f-479b-a52e-c379ceb1f839</agri:idReponse>
       </agri:Reponse>
     </agri:aReponse>
   </rdf:Description>
@@ -771,13 +793,6 @@
       </agri:CommentaireJardinier>
     </agri:aCommentaire>
   </rdf:Description>
-  <agri:ConseilEnAttente>
-    <agri:titreConseil>test</agri:titreConseil>
-    <agri:contenuConseil>dd</agri:contenuConseil>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-05</agri:dateSoumission>
-    <agri:idConseil>156b47b3-9aad-4621-841a-a7f86063909c</agri:idConseil>
-  </agri:ConseilEnAttente>
   <rdf:Description rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CommentaireVisiteur_01">
     <agri:contenuCommentaire>Cultiver des tomates en pot" : "Très instructif, merci</agri:contenuCommentaire>
     <rdf:type>
@@ -887,15 +902,6 @@
     <agri:dateReponse rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
     >2024-11-07T20:05:01</agri:dateReponse>
   </owl:NamedIndividual>
-  <agri:ConseilApprouve>
-    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-06</agri:dateApprobation>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-05</agri:dateSoumission>
-    <agri:contenuConseil>Le choix des cultures dépend de l’espace (toit, balcon, cour, intérieur), du climat local et de la disponibilité de la lumière. Les herbes aromatiques, les légumes à croissance rapide et les petits fruits s'adaptent souvent bien aux espaces restreints.</agri:contenuConseil>
-    <agri:titreConseil>Quel type de culture convient le mieux à l'espace disponible ?</agri:titreConseil>
-    <agri:idConseil>4f6b0a4c-ce7d-40b7-ad86-a85c783a63a2</agri:idConseil>
-  </agri:ConseilApprouve>
   <rdf:Description rdf:about="file:///G:/websemantique/2426b4d1-2472-4601-814a-96c3e057acf7">
     <agri:aCommentaire>
       <agri:CommentaireJardinier>
@@ -1010,6 +1016,24 @@
     <agri:typeRessource>Matériel</agri:typeRessource>
     <agri:EtatRessourceMaterielle>Neuf</agri:EtatRessourceMaterielle>
   </owl:NamedIndividual>
+  <agri:ConseilApprouve>
+    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024/11/06</agri:dateApprobation>
+    <agri:contenuConseil>est une hard things</agri:contenuConseil>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-06</agri:dateSoumission>
+    <agri:idConseil>d677e943-5994-4a11-9fbf-a1735cd69aae</agri:idConseil>
+    <agri:titreConseil>Coment faire le sol ?</agri:titreConseil>
+  </agri:ConseilApprouve>
+  <agri:ConseilApprouve>
+    <agri:idConseil>ba5d2e7d-7890-401d-93d5-86538fc55695</agri:idConseil>
+    <agri:titreConseil>hana</agri:titreConseil>
+    <agri:contenuConseil>contenu</agri:contenuConseil>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-20</agri:dateSoumission>
+    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-08</agri:dateApprobation>
+  </agri:ConseilApprouve>
   <rdf:Description rdf:about="file:///G:/websemantique/52b04cd9-a347-41b3-b7e1-b2718ebe2d1f">
     <agri:aReponse>
       <agri:Reponse rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#ed9449f3-ebc9-4623-9837-8744a608deb0">
@@ -1047,14 +1071,20 @@
       </agri:Reponse>
     </agri:aReponse>
   </rdf:Description>
+  <agri:ConseilEnAttente>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-05</agri:dateSoumission>
+    <agri:contenuConseil>contenu</agri:contenuConseil>
+    <agri:titreConseil>test</agri:titreConseil>
+  </agri:ConseilEnAttente>
   <agri:ConseilApprouve>
     <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-14</agri:dateApprobation>
+    >2024-11-07</agri:dateApprobation>
     <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-06</agri:dateSoumission>
-    <agri:contenuConseil>tssss</agri:contenuConseil>
-    <agri:titreConseil>testutaire</agri:titreConseil>
-    <agri:idConseil>13d28db2-1bcd-473c-ac10-925263afbe7d</agri:idConseil>
+    >2024-11-07</agri:dateSoumission>
+    <agri:contenuConseil>contenu</agri:contenuConseil>
+    <agri:titreConseil>test</agri:titreConseil>
+    <agri:idConseil>cba3aee9-387e-4a20-8a8a-424289f62aa9</agri:idConseil>
   </agri:ConseilApprouve>
   <agri:EvenementLocal rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Evenement_01">
     <agri:dateEvenement>09-10-2024</agri:dateEvenement>
@@ -1064,29 +1094,22 @@
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </agri:EvenementLocal>
   <agri:ConseilApprouve>
-    <agri:idConseil>fcbd5bec-788f-41e5-8989-4c789d41c980</agri:idConseil>
-    <agri:titreConseil>titre</agri:titreConseil>
-    <agri:contenuConseil>contenu</agri:contenuConseil>
+    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-07</agri:dateApprobation>
+    <agri:contenuConseil>dd</agri:contenuConseil>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-05</agri:dateSoumission>
+    <agri:idConseil>156b47b3-9aad-4621-841a-a7f86063909c</agri:idConseil>
+    <agri:titreConseil>test</agri:titreConseil>
+  </agri:ConseilApprouve>
+  <agri:ConseilApprouve>
+    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-08</agri:dateApprobation>
     <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
     >2024-11-07</agri:dateSoumission>
-    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-15</agri:dateApprobation>
-  </agri:ConseilApprouve>
-  <owl:AllDisjointClasses>
-    <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageConnaissance"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageMateriel"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageRessourceNaturelle"/>
-    </owl:members>
-  </owl:AllDisjointClasses>
-  <agri:ConseilApprouve>
-    <agri:titreConseil>comment assurer le bon deroulmenets des machine virtuel</agri:titreConseil>
-    <agri:idConseil>c0d2f4c1-a029-404d-ac39-0970a43808d0</agri:idConseil>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-06</agri:dateSoumission>
-    <agri:contenuConseil>atravers le plantation des plante</agri:contenuConseil>
-    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-05</agri:dateApprobation>
+    <agri:contenuConseil>manar manar</agri:contenuConseil>
+    <agri:titreConseil>manar</agri:titreConseil>
+    <agri:idConseil>e1731d62-07e3-44a2-8f77-062249142367</agri:idConseil>
   </agri:ConseilApprouve>
   <agri:Conference rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#ClassificationEvenement_01">
     <agri:nomClassificationEvenement>Forum</agri:nomClassificationEvenement>
@@ -1099,6 +1122,12 @@
     <agri:dateAjoutRessource>2024-10-10</agri:dateAjoutRessource>
     <agri:typeRessource>Matériel</agri:typeRessource>
   </owl:NamedIndividual>
+  <agri:ConseilEnAttente>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-05</agri:dateSoumission>
+    <agri:contenuConseil>hana</agri:contenuConseil>
+    <agri:titreConseil>hana</agri:titreConseil>
+  </agri:ConseilEnAttente>
   <agri:JardinPartage rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Jardin_Solidaire">
     <agri:localisationJardin>Tunis</agri:localisationJardin>
     <agri:nomJardin>Jardin Solidaire</agri:nomJardin>
@@ -1144,9 +1173,9 @@
   </rdf:Description>
   <owl:AllDisjointClasses>
     <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CommentaireJardinier"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CommentaireVisiteur"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Reponse"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageConnaissance"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageMateriel"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PartageRessourceNaturelle"/>
     </owl:members>
   </owl:AllDisjointClasses>
   <rdf:Description rdf:about="file:///G:/websemantique/166edf95-a880-499a-9e60-7289fad5a420">
@@ -1175,18 +1204,21 @@
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CatégoriePlante">
     <agri:nomCategoriePlante>Légumes</agri:nomCategoriePlante>
   </owl:NamedIndividual>
+  <agri:ConseilApprouve>
+    <agri:idConseil>2426b4d1-2472-4601-814a-96c3e057acf7</agri:idConseil>
+    <agri:titreConseil>hana</agri:titreConseil>
+    <agri:contenuConseil>hana</agri:contenuConseil>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-06</agri:dateSoumission>
+    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-07</agri:dateApprobation>
+  </agri:ConseilApprouve>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#estSitueDans">
     <rdfs:domain rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Plantation"/>
     <rdfs:range rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#JardinUrbain"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
   </owl:NamedIndividual>
-  <agri:ConseilEnAttente>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024/01/38</agri:dateSoumission>
-    <agri:contenuConseil>hahahahahahahahahhahahahhaha</agri:contenuConseil>
-    <agri:titreConseil>blalalalalalalalallalala</agri:titreConseil>
-  </agri:ConseilEnAttente>
   <owl:AllDisjointClasses>
     <owl:members rdf:parseType="Collection">
       <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#PlanteFruitiere"/>
@@ -1198,15 +1230,6 @@
     <agri:nomUser>ean Dupont</agri:nomUser>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </agri:Jardinier>
-  <agri:ConseilApprouve>
-    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024/11/06</agri:dateApprobation>
-    <agri:contenuConseil>est une hard things</agri:contenuConseil>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-06</agri:dateSoumission>
-    <agri:idConseil>d677e943-5994-4a11-9fbf-a1735cd69aae</agri:idConseil>
-    <agri:titreConseil>Coment faire le sol ?</agri:titreConseil>
-  </agri:ConseilApprouve>
   <rdf:Description rdf:about="file:///G:/websemantique/8f5e4ff7-5949-4df6-9eb5-d99019d40d12">
     <agri:aReponse>
       <agri:Reponse>
@@ -1247,12 +1270,13 @@
       </agri:Reponse>
     </agri:aReponse>
   </rdf:Description>
-  <agri:ConseilEnAttente>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-05</agri:dateSoumission>
-    <agri:contenuConseil>hana</agri:contenuConseil>
-    <agri:titreConseil>hana</agri:titreConseil>
-  </agri:ConseilEnAttente>
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceEducative"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceMaterielle"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceNaturelle"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Ressources_Partagées">
     <agri:statutRessourcesPartagees>En cours</agri:statutRessourcesPartagees>
     <agri:nomUser>ahmed salhi</agri:nomUser>
@@ -1263,23 +1287,21 @@
     <agri:DatedebutPartageMateriel>2024-10-01</agri:DatedebutPartageMateriel>
     <agri:DateFinPartageMateriel>2024-10-15</agri:DateFinPartageMateriel>
   </owl:NamedIndividual>
-  <agri:ConseilApprouve>
-    <agri:idConseil>2426b4d1-2472-4601-814a-96c3e057acf7</agri:idConseil>
-    <agri:titreConseil>hana</agri:titreConseil>
-    <agri:contenuConseil>hana</agri:contenuConseil>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-06</agri:dateSoumission>
-    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-07</agri:dateApprobation>
-  </agri:ConseilApprouve>
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#AtelierPratique"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Conference"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Formation"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
   <agri:ConseilApprouve>
     <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-08</agri:dateApprobation>
+    >2024-11-06</agri:dateApprobation>
     <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-07</agri:dateSoumission>
-    <agri:contenuConseil>manar manar</agri:contenuConseil>
-    <agri:titreConseil>manar</agri:titreConseil>
-    <agri:idConseil>e1731d62-07e3-44a2-8f77-062249142367</agri:idConseil>
+    >2024-11-05</agri:dateSoumission>
+    <agri:contenuConseil>Le choix des cultures dépend de l’espace (toit, balcon, cour, intérieur), du climat local et de la disponibilité de la lumière. Les herbes aromatiques, les légumes à croissance rapide et les petits fruits s'adaptent souvent bien aux espaces restreints.</agri:contenuConseil>
+    <agri:titreConseil>Quel type de culture convient le mieux à l'espace disponible ?</agri:titreConseil>
+    <agri:idConseil>4f6b0a4c-ce7d-40b7-ad86-a85c783a63a2</agri:idConseil>
   </agri:ConseilApprouve>
   <rdf:Description rdf:about="file:///G:/websemantique/97b7ee40-95c3-4b88-a0e2-23ba41556365">
     <agri:aReponse>
@@ -1292,20 +1314,12 @@
       </agri:Reponse>
     </agri:aReponse>
   </rdf:Description>
-  <owl:AllDisjointClasses>
-    <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Administrateur"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Jardinier"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Visiteur"/>
-    </owl:members>
-  </owl:AllDisjointClasses>
-  <owl:AllDisjointClasses>
-    <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceEducative"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceMaterielle"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#RessourceNaturelle"/>
-    </owl:members>
-  </owl:AllDisjointClasses>
+  <agri:ConseilEnAttente>
+    <agri:titreConseil>test</agri:titreConseil>
+    <agri:contenuConseil>contenu</agri:contenuConseil>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-05</agri:dateSoumission>
+  </agri:ConseilEnAttente>
   <rdf:Description rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#8f5e4ff7-5949-4df6-9eb5-d99019d40d12">
     <agri:auteurReponse>tt</agri:auteurReponse>
     <agri:contenuReponse>ghun</agri:contenuReponse>
@@ -1375,17 +1389,38 @@
   <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#localisation">
     <rdfs:domain rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Jardin"/>
   </owl:AnnotationProperty>
+  <rdf:Description rdf:about="file:///G:/websemantique/371f3452-ac38-4295-820b-4301d7e2ffec">
+    <agri:aReponse>
+      <agri:Reponse rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#b745c4dd-0758-4d8e-8d49-078504ce1578">
+        <agri:idReponse>b745c4dd-0758-4d8e-8d49-078504ce1578</agri:idReponse>
+        <agri:auteurReponse>samia</agri:auteurReponse>
+        <agri:dateReponse rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+        >2024-11-07T23:02:46</agri:dateReponse>
+        <agri:contenuReponse>reponse1</agri:contenuReponse>
+      </agri:Reponse>
+    </agri:aReponse>
+  </rdf:Description>
+  <agri:ConseilEnAttente>
+    <agri:idConseil>26380786-44c0-49a8-8881-d4382f130d1c</agri:idConseil>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-04</agri:dateSoumission>
+    <agri:contenuConseil>delete</agri:contenuConseil>
+    <agri:titreConseil>delete</agri:titreConseil>
+  </agri:ConseilEnAttente>
+  <agri:ConseilApprouve>
+    <agri:idConseil>fcbd5bec-788f-41e5-8989-4c789d41c980</agri:idConseil>
+    <agri:titreConseil>titre</agri:titreConseil>
+    <agri:contenuConseil>contenu</agri:contenuConseil>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-07</agri:dateSoumission>
+    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-15</agri:dateApprobation>
+  </agri:ConseilApprouve>
   <agri:ConseilEnAttente>
     <agri:titreConseil>manar</agri:titreConseil>
     <agri:contenuConseil>manar</agri:contenuConseil>
     <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
     >2024-11-12</agri:dateSoumission>
-  </agri:ConseilEnAttente>
-  <agri:ConseilEnAttente>
-    <agri:titreConseil>blalalalalalalalallalala</agri:titreConseil>
-    <agri:contenuConseil>hahahahahahahahahhahahahhaha</agri:contenuConseil>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024/01/38</agri:dateSoumission>
   </agri:ConseilEnAttente>
   <rdf:Description rdf:about="file:///G:/websemantique/4f6b0a4c-ce7d-40b7-ad86-a85c783a63a2">
     <agri:aCommentaire>
@@ -1407,19 +1442,38 @@
       </agri:CommentaireVisiteur>
     </agri:aCommentaire>
   </rdf:Description>
+  <agri:ConseilApprouve>
+    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-14</agri:dateApprobation>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-06</agri:dateSoumission>
+    <agri:contenuConseil>tssss</agri:contenuConseil>
+    <agri:titreConseil>testutaire</agri:titreConseil>
+    <agri:idConseil>13d28db2-1bcd-473c-ac10-925263afbe7d</agri:idConseil>
+  </agri:ConseilApprouve>
+  <owl:AllDisjointClasses>
+    <owl:members rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CommentaireJardinier"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CommentaireVisiteur"/>
+      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Reponse"/>
+    </owl:members>
+  </owl:AllDisjointClasses>
   <agri:Plantation rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#plantation1">
     <agri:nomplantation>Potager Bio</agri:nomplantation>
     <agri:nomJardin>Jardin Solidaire</agri:nomJardin>
     <agri:dateplantation>09-10-2024</agri:dateplantation>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
   </agri:Plantation>
-  <agri:ConseilEnAttente>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024/01/38</agri:dateSoumission>
-    <agri:contenuConseil>amina</agri:contenuConseil>
-    <agri:titreConseil>sophie</agri:titreConseil>
-  </agri:ConseilEnAttente>
   <rdf:Description rdf:about="file:///G:/websemantique/c0d2f4c1-a029-404d-ac39-0970a43808d0">
+    <agri:aCommentaire>
+      <agri:CommentaireJardinier>
+        <agri:idCommentaire>371f3452-ac38-4295-820b-4301d7e2ffec</agri:idCommentaire>
+        <agri:auteurCommentaire>hana</agri:auteurCommentaire>
+        <agri:dateCommentaire rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+        >2024-11-07T23:00:41</agri:dateCommentaire>
+        <agri:contenuCommentaire>ajouter un bon commantaire</agri:contenuCommentaire>
+      </agri:CommentaireJardinier>
+    </agri:aCommentaire>
     <agri:aCommentaire>
       <agri:CommentaireJardinier>
         <agri:idCommentaire>3409dfd6-0d36-40a6-a2d3-e1e8b41a0258</agri:idCommentaire>
@@ -1430,6 +1484,12 @@
       </agri:CommentaireJardinier>
     </agri:aCommentaire>
   </rdf:Description>
+  <agri:ConseilEnAttente>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024/01/38</agri:dateSoumission>
+    <agri:contenuConseil>amina</agri:contenuConseil>
+    <agri:titreConseil>sophie</agri:titreConseil>
+  </agri:ConseilEnAttente>
   <rdf:Description rdf:about="file:///G:/websemantique/1234">
     <agri:aReponse>
       <agri:Reponse>
@@ -1441,25 +1501,12 @@
       </agri:Reponse>
     </agri:aReponse>
   </rdf:Description>
-  <agri:ConseilApprouve>
-    <agri:idConseil>ba5d2e7d-7890-401d-93d5-86538fc55695</agri:idConseil>
-    <agri:titreConseil>hana</agri:titreConseil>
-    <agri:contenuConseil>contenu</agri:contenuConseil>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-20</agri:dateSoumission>
-    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-08</agri:dateApprobation>
-  </agri:ConseilApprouve>
   <agri:ConseilEnAttente>
-    <agri:titreConseil>test</agri:titreConseil>
-    <agri:contenuConseil>contenu</agri:contenuConseil>
+    <agri:titreConseil>blalalalalalalalallalala</agri:titreConseil>
+    <agri:contenuConseil>hahahahahahahahahhahahahhaha</agri:contenuConseil>
     <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-05</agri:dateSoumission>
+    >2024/01/38</agri:dateSoumission>
   </agri:ConseilEnAttente>
-  <agri:PlanteLegume rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Plante_Tomate">
-    <agri:appartientA rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CategorieLegume"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
-  </agri:PlanteLegume>
   <agri:ConseilEnAttente>
     <agri:idConseil rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#7867c098-8357-4f2f-9cc9-dd783ae01197"/>
     <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
@@ -1467,6 +1514,16 @@
     <agri:contenuConseil>Sol et fertilisation</agri:contenuConseil>
     <agri:titreConseil>Sol et fertilisation</agri:titreConseil>
   </agri:ConseilEnAttente>
+  <agri:ConseilEnAttente>
+    <agri:titreConseil>blalalalalalalalallalala</agri:titreConseil>
+    <agri:contenuConseil>tunisa</agri:contenuConseil>
+    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024/01/38</agri:dateSoumission>
+  </agri:ConseilEnAttente>
+  <agri:PlanteLegume rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Plante_Tomate">
+    <agri:appartientA rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#CategorieLegume"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+  </agri:PlanteLegume>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Ressource_Éducative">
     <agri:nomRessource>Guide sur la permaculture</agri:nomRessource>
     <agri:NiveauDeCompetenceRessourceEducative>Débutant</agri:NiveauDeCompetenceRessourceEducative>
@@ -1478,36 +1535,19 @@
     <agri:nomUser>mohsen</agri:nomUser>
     <agri:nomRessource>Guide sur la permaculture</agri:nomRessource>
   </owl:NamedIndividual>
-  <agri:ConseilEnAttente>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-05</agri:dateSoumission>
-    <agri:contenuConseil>contenu</agri:contenuConseil>
-    <agri:titreConseil>test</agri:titreConseil>
-  </agri:ConseilEnAttente>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#partageAvec"/>
-  <owl:AllDisjointClasses>
-    <owl:members rdf:parseType="Collection">
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#AtelierPratique"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Conference"/>
-      <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Formation"/>
-    </owl:members>
-  </owl:AllDisjointClasses>
-  <agri:ConseilEnAttente>
-    <agri:idConseil>26380786-44c0-49a8-8881-d4382f130d1c</agri:idConseil>
+  <agri:ConseilApprouve>
+    <agri:titreConseil>comment assurer le bon deroulmenets des machine virtuel</agri:titreConseil>
+    <agri:idConseil>c0d2f4c1-a029-404d-ac39-0970a43808d0</agri:idConseil>
     <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024-11-04</agri:dateSoumission>
-    <agri:contenuConseil>delete</agri:contenuConseil>
-    <agri:titreConseil>delete</agri:titreConseil>
-  </agri:ConseilEnAttente>
+    >2024-11-06</agri:dateSoumission>
+    <agri:contenuConseil>atravers le plantation des plante</agri:contenuConseil>
+    <agri:dateApprobation rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2024-11-05</agri:dateApprobation>
+  </agri:ConseilApprouve>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Partage_de_Ressources_Naturelles">
     <agri:datePartageRessource>2024-09-20</agri:datePartageRessource>
     <agri:nomRessource>Réservoir d'eau</agri:nomRessource>
     <agri:quantiteRessourcesPartagees>20</agri:quantiteRessourcesPartagees>
   </owl:NamedIndividual>
-  <agri:ConseilEnAttente>
-    <agri:titreConseil>blalalalalalalalallalala</agri:titreConseil>
-    <agri:contenuConseil>tunisa</agri:contenuConseil>
-    <agri:dateSoumission rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-    >2024/01/38</agri:dateSoumission>
-  </agri:ConseilEnAttente>
 </rdf:RDF>
