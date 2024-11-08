@@ -868,6 +868,14 @@
     </agri:repondreA>
     <agri:contenuReponse>Je pense qu'il faudrait plus d'infos sur l'arrosage</agri:contenuReponse>
   </owl:NamedIndividual>
+  <agri:Metal rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Dechet_88dda777-984d-4bab-ba5b-f9d2696c1152">
+    <agri:dangerosite>Moyenne</agri:dangerosite>
+    <agri:methodeTraitement>Recyclage</agri:methodeTraitement>
+    <agri:typeDechet>Métal</agri:typeDechet>
+    <agri:descriptionDechet>canette</agri:descriptionDechet>
+    <agri:nomDechet>Canette en aluminium</agri:nomDechet>
+    <agri:idDechet>Dechet_88dda777-984d-4bab-ba5b-f9d2696c1152</agri:idDechet>
+  </agri:Metal>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#ConseilEnAttente_01">
     <rdf:type>
       <owl:Restriction>
@@ -938,14 +946,6 @@
       <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Reponse"/>
     </owl:members>
   </owl:AllDisjointClasses>
-  <agri:Plastique rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Dechet_66073108-bdb2-4601-82b1-3e3d69a0d81c">
-    <agri:dangerosite>Plastique</agri:dangerosite>
-    <agri:methodeTraitement>Plastique</agri:methodeTraitement>
-    <agri:typeDechet>Plastique</agri:typeDechet>
-    <agri:descriptionDechet>hello</agri:descriptionDechet>
-    <agri:nomDechet>hello</agri:nomDechet>
-    <agri:idDechet>Dechet_66073108-bdb2-4601-82b1-3e3d69a0d81c</agri:idDechet>
-  </agri:Plastique>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#ClassificationEvenement_01">
     <agri:nomClassificationEvenement>Forum</agri:nomClassificationEvenement>
     <rdf:type rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Conference"/>
@@ -981,14 +981,6 @@
     <agri:nomCategoriePlante>Légumes</agri:nomCategoriePlante>
   </owl:NamedIndividual>
   <owl:AnnotationProperty rdf:about="http://example.org#titre"/>
-  <agri:Plastique rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Dechet_7ee3b11a-3175-4bfb-8065-e1580d507e26">
-    <agri:dangerosite>Plastique</agri:dangerosite>
-    <agri:methodeTraitement>Plastique</agri:methodeTraitement>
-    <agri:typeDechet>Plastique</agri:typeDechet>
-    <agri:descriptionDechet>hello</agri:descriptionDechet>
-    <agri:nomDechet>hello</agri:nomDechet>
-    <agri:idDechet>Dechet_7ee3b11a-3175-4bfb-8065-e1580d507e26</agri:idDechet>
-  </agri:Plastique>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Jardinier_01">
     <agri:nomUser>ean Dupont</agri:nomUser>
     <rdf:type rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Jardinier"/>
@@ -1003,14 +995,6 @@
     <agri:DateFinPartageMateriel>2024-10-15</agri:DateFinPartageMateriel>
     <agri:DatedebutPartageMateriel>2024-10-01</agri:DatedebutPartageMateriel>
   </owl:NamedIndividual>
-  <agri:Plastique rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Dechet_0d1a55f5-6896-457a-ac47-3344d95f41a6">
-    <agri:idDechet>Dechet_0d1a55f5-6896-457a-ac47-3344d95f41a6</agri:idDechet>
-    <agri:nomDechet>Bouteille</agri:nomDechet>
-    <agri:descriptionDechet>sousou</agri:descriptionDechet>
-    <agri:typeDechet>PLastique</agri:typeDechet>
-    <agri:methodeTraitement>c xc</agri:methodeTraitement>
-    <agri:dangerosite>élevée</agri:dangerosite>
-  </agri:Plastique>
   <owl:NamedIndividual rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Administrateur_01">
     <agri:nomUser>Paul Durand</agri:nomUser>
     <rdf:type rdf:resource="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Administrateur"/>
@@ -1040,14 +1024,6 @@
     <agri:nomDechet>soy</agri:nomDechet>
     <agri:idDechet>Dechet_3885f5db-f147-48ac-b209-208b0e429542</agri:idDechet>
   </agri:metal>
-  <agri:Plastique rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Dechet_643520b1-cbd9-439f-aa7a-e175ed152e88">
-    <agri:dangerosite>faible</agri:dangerosite>
-    <agri:methodeTraitement>Recyclage</agri:methodeTraitement>
-    <agri:typeDechet>PLastique</agri:typeDechet>
-    <agri:descriptionDechet>Bouteille</agri:descriptionDechet>
-    <agri:nomDechet>Bouteille</agri:nomDechet>
-    <agri:idDechet>Dechet_643520b1-cbd9-439f-aa7a-e175ed152e88</agri:idDechet>
-  </agri:Plastique>
   <agri:azertty rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Dechet_bdfcb997-689b-4603-b915-49caff504d75">
     <agri:dangerosite>élevée</agri:dangerosite>
     <agri:methodeTraitement>Azery</agri:methodeTraitement>
@@ -1056,6 +1032,14 @@
     <agri:nomDechet>Bouteille</agri:nomDechet>
     <agri:idDechet>Dechet_bdfcb997-689b-4603-b915-49caff504d75</agri:idDechet>
   </agri:azertty>
+  <agri:Plastique rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Dechet_3ac7ce99-b9ac-4bd8-a040-b25ccc8f8aff">
+    <agri:dangerosite>Elevée</agri:dangerosite>
+    <agri:methodeTraitement>Recyclage</agri:methodeTraitement>
+    <agri:typeDechet>PLastique</agri:typeDechet>
+    <agri:descriptionDechet>plastic</agri:descriptionDechet>
+    <agri:nomDechet>Bouteille</agri:nomDechet>
+    <agri:idDechet>Dechet_3ac7ce99-b9ac-4bd8-a040-b25ccc8f8aff</agri:idDechet>
+  </agri:Plastique>
   <owl:AllDisjointClasses>
     <owl:members rdf:parseType="Collection">
       <owl:Class rdf:about="http://www.semanticweb.org/agriculture/ontologies/2024/0/urbanAgriculture#Administrateur"/>
