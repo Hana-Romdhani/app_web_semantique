@@ -114,6 +114,63 @@ public class JenaEngine {
 
         return resultsList;
     }
+
+    //******ressource********
+    // Méthode pour exécuter une requête SELECT SPARQL et retourner les résultats sous forme de chaîne
+    public String executeSelectQueryRs(String sparqlQuery) {
+        StringBuilder resultsBuilder = new StringBuilder();
+
+        // Création de la requête SPARQL
+        Query query = QueryFactory.create(sparqlQuery);
+
+        // Exécution de la requête avec le modèle
+        try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
+            ResultSet results = qexec.execSelect();
+
+            // Formate les résultats en chaîne de caractères pour les afficher
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                for (String var : results.getResultVars()) {
+                    resultsBuilder.append(var).append(": ").append(soln.get(var)).append("\n");
+                }
+                resultsBuilder.append("\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error executing SPARQL SELECT query: " + e.getMessage();
+        }
+
+        return resultsBuilder.toString();
+    }
+
+
+
+    public List<Map<String, String>> executeSelectQueryRs(Model model, String query, String... variables) {
+        List<Map<String, String>> results = new ArrayList<>();
+        QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create(query), model);
+        ResultSet resultSet = queryExecution.execSelect();
+
+        while (resultSet.hasNext()) {
+            QuerySolution solution = resultSet.nextSolution();
+            Map<String, String> resultMap = new HashMap<>();
+
+            for (String variable : variables) {
+                if (solution.contains(variable)) {
+                    resultMap.put(variable, solution.get(variable).toString());
+                }
+            }
+
+            results.add(resultMap);
+        }
+
+        queryExecution.close();
+        return results;
+    }
+
+
+
+//****end ress *****
+
     // Method to execute an ASK query
     public boolean executeAskQuery(String query) {
         // Create a QueryExecution instance using the provided SPARQL query string
