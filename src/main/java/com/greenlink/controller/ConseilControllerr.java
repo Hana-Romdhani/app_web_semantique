@@ -122,8 +122,8 @@ public class ConseilControllerr {
                     .body("An error occurred while deleting the response.");
         }
     }*/
-    @DeleteMapping("/Conseildelete")
-    public String deletePlante(@RequestParam String idConseil) {
+    @DeleteMapping("/Conseildelete/{idConseil}")
+    public String delete(@PathVariable String idConseil) {
         sparqlUtils.deleteAttente(idConseil);
         return "Conseil with idConseil: " + idConseil + " deleted successfully";
     }

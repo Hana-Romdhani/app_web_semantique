@@ -207,7 +207,7 @@ public class SparqlUtils {
 
         // Format the date for SPARQL
         String formattedDate = String.format("\"%s\"^^<http://www.w3.org/2001/XMLSchema#dateTime>", dateCommentaire);
-        String typeCommentaire = isVisiteur ? "CommentaireJardinier" : "CommentaireVisiteur";
+        String typeCommentaire = isVisiteur ? "CommentaireVisiteur" : "CommentaireJardinier";
 
         // Build the SPARQL insert query
         String query = String.format(
