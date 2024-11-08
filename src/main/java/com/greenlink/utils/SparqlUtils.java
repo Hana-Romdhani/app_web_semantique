@@ -501,7 +501,7 @@ public class SparqlUtils {
 
 
 
-    public List<String> listGardensByType(String type) {
+    public List<Map<String, String>> listGardensByType(String type) {
         String typeURI = AGRICULTURE_NAMESPACE + type;
         String query = String.format(
                 "SELECT ?jardin ?nom ?localisation ?superficie " +
@@ -531,21 +531,41 @@ public class SparqlUtils {
 
         System.out.println("Executing SPARQL query: " + query);
 
-        // Run the query and get the results
-        List<Map<String, String>> results = jenaEngine.executeSelectMultiple(jenaEngine.getModel(), query,
-                new String[]{"jardin", "nom", "localisation", "superficie", "proprietaire_value", "dateCreation_value" , "nombreParticipants_value", "typeParticipation_value"});
+        // Create a list to store the results
+        List<Map<String, String>> jardins = new ArrayList<>();
 
-        // Format each result as a string
-        List<String> formattedResults = new ArrayList<>();
-        for (Map<String, String> result : results) {
-            formattedResults.add(String.format("Jardin: %s, Nom: %s, Localisation: %s, Superficie: %s, Proprietaire: %s, Date Creation: %s, Nombre Participants: %s, Type Participation: %s",
-                    result.get("jardin"), result.get("nom"), result.get("localisation"),
-                    result.get("superficie"),
-                    result.get("proprietaire_value"), result.get("dateCreation_value"), result.get("nombreParticipants_value"), result.get("typeParticipation_value")));
-        
+        // Run the query and get the results
+        try (QueryExecution qexec = QueryExecutionFactory.create(query, jenaEngine.getModel())) {
+            ResultSet results = qexec.execSelect();
+
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                Map<String, String> jardin = new HashMap<>();
+
+                // Extract the attributes and add them to the map
+                try {
+                    jardin.put("id", typeURI);
+                    jardin.put("jardin", soln.contains("jardin") ? soln.getResource("jardin").getURI() : "Jardin non disponible");
+                    jardin.put("nom", soln.contains("nom") && soln.get("nom").isLiteral() ? soln.getLiteral("nom").getString() : "Nom non disponible");
+                    jardin.put("localisation", soln.contains("localisation") && soln.get("localisation").isLiteral() ? soln.getLiteral("localisation").getString() : "Localisation non disponible");
+                    jardin.put("superficie", soln.contains("superficie") && soln.get("superficie").isLiteral() ? soln.getLiteral("superficie").getString() : "Superficie non disponible");
+                    jardin.put("proprietaire", soln.contains("proprietaire_value") && soln.get("proprietaire_value").isLiteral() ? soln.getLiteral("proprietaire_value").getString() : "Propriétaire non disponible");
+                    jardin.put("dateCreation", soln.contains("dateCreation_value") && soln.get("dateCreation_value").isLiteral() ? soln.getLiteral("dateCreation_value").getString() : "Date non disponible");
+                    jardin.put("nombreParticipants", soln.contains("nombreParticipants_value") && soln.get("nombreParticipants_value").isLiteral() ? soln.getLiteral("nombreParticipants_value").getString() : "Nombre non disponible");
+                    jardin.put("typeParticipation", soln.contains("typeParticipation_value") && soln.get("typeParticipation_value").isLiteral() ? soln.getLiteral("typeParticipation_value").getString() : "Type non disponible");
+
+                    // Add the map to the list
+                    jardins.add(jardin);
+                } catch (Exception e) {
+                    System.err.println("Error processing jardin: " + e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error executing SPARQL query: " + e.getMessage());
+            e.printStackTrace();
         }
 
-        return formattedResults;
+        return jardins;
     }
 
 

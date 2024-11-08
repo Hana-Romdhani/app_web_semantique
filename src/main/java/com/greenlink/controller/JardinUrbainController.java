@@ -108,13 +108,20 @@ public class JardinUrbainController {
 
     // Lister les jardins par type (JardinPartage ou JardinPrive)
     @GetMapping("/listByType/{type}")
-    public List<String> listGardensByType(@PathVariable String type) {
+    public List<Map<String, String>> listGardensByType(@PathVariable String type) {
+        // Validate the input type to ensure it's either JardinPartage or JardinPrive
         if (!type.equalsIgnoreCase("JardinPartage") && !type.equalsIgnoreCase("JardinPrive")) {
             throw new IllegalArgumentException("Type de jardin invalide. Utilisez JardinPartage ou JardinPrive.");
         }
+
         System.out.println("Listing gardens of type: " + type);  // Debug output
-        return sparqlUtils.listGardensByType(type);
+
+        // Get the SPARQL results as a list of maps (similar to getAllJardins method)
+        List<Map<String, String>> gardens = sparqlUtils.listGardensByType(type);
+
+        return gardens;
     }
+
 
 
 }
